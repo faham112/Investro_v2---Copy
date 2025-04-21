@@ -66,6 +66,7 @@ if (loginForm) {
                 const user = userCredential.user;
                 console.log('Firebase Login Successful:', user.uid);
                 alert('Login successful!');
+                localStorage.setItem('loginSuccess', 'true');
                 // TODO: Redirect based on user role or to a default logged-in page
                 window.location.href = '/pages/user/dashboard.html'; // Redirect to user dashboard
             })
