@@ -15,6 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/pages/login.html';
         }
     });
+
+    // Inactivity timer
+    let inactivityTimer;
+
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(logoutDueToInactivity, 300000); // 5 minutes (300000 ms)
+    }
+
+    function logoutDueToInactivity() {
+        window.location.href = '/index.html';
+    }
+
+    // Start timer on page load
+    resetInactivityTimer();
+
+    // Reset timer on user activity
+    document.addEventListener('mousemove', resetInactivityTimer);
+    document.addEventListener('keydown', resetInactivityTimer);
 });
 
 // Load dashboard data
