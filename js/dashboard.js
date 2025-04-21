@@ -46,10 +46,12 @@ async function loadDashboardData() {
             updateDashboardValues(result.data);
         } else {
             showNotification(result.message || 'Failed to load dashboard data', 'error');
+            window.location.href = '/pages/login.html'; // Redirect to login page
         }
     } catch (error) {
         console.error('Failed to load dashboard data:', error);
         showNotification('Failed to load dashboard data', 'error');
+        window.location.href = '/pages/login.html'; // Redirect to login page
     }
 }
 
