@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - InvestRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #1a1f25;
+            --darker-bg: #0f1b21;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(26, 42, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        /* Modern Button Styles */
+        .btn {
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .btn-outline {
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Register Form Styles */
+        .register-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styles */
+        footer {
+            background: rgba(26, 42, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Existing register form styles... */
+        .register-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .register-header .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .register-header p {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #a0a0a0;
+            cursor: pointer;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .terms input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: #d4af37;
+        }
+
+        .terms label {
+            color: #a0a0a0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .terms a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .terms a:hover {
+            color: #b99730;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 12px;
+            background: #d4af37;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .register-button:hover {
+            background: #b99730;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #b99730;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0.8rem 1rem;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .register-container {
+                margin: 1rem;
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group input {
+                padding: 0.8rem;
+                font-size: 14px;
+            }
+
+            .form-group i {
+                top: 35px;
+            }
+
+            .terms {
+                margin: 1rem 0;
+                font-size: 14px;
+            }
+
+            .register-button {
+                padding: 0.8rem;
+                font-size: 15px;
+            }
+
+            .login-link {
+                margin-top: 1rem;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .register-container {
+                margin: 0.5rem;
+                padding: 1.2rem;
+            }
+
+            .register-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .register-header .logo {
+                font-size: 24px;
+                margin-bottom: 0.5rem;
+            }
+
+            .register-header p {
+                font-size: 14px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+            }
+
+            .form-group input {
+                padding: 0.7rem;
+                font-size: 13px;
+            }
+
+            .terms {
+                font-size: 13px;
+                margin: 0.8rem 0;
+            }
+
+            .terms label {
+                line-height: 1.4;
+            }
+
+            .footer-content {
+                padding: 0 1rem;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="../index.html" class="logo">Invest<span>RO</span></a>
+            <a href="login.html" class="btn btn-outline">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="register-container">
+            <div class="register-header">
+                <div class="logo">Investro</div>
+                <p>Create your account to start investing</p>
+            </div>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                    <i class="fas fa-eye" id="togglePassword"></i>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                    <i class="fas fa-eye" id="toggleConfirmPassword"></i>
+                </div>
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="register-button">Create Account</button>
+                <div class="login-link">
+                    Already have an account? <a href="login.html">Login</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 InvestRO. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase and Page Specific Scripts -->
+    <!-- IMPORTANT: Ensure firebase-config.js has your actual Firebase credentials -->
+    <script type="module" src="../js/firebase-init.js"></script>
+    <!-- auth.js is implicitly loaded by register-page.js -->
+    <script type="module" src="../js/register-page.js"></script>
+
+</body>
+</html>

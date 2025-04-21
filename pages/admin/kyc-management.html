@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Management - InvestPro Admin</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="kyc-management.html" class="admin-nav-link active">
+                    <i class="fas fa-id-card"></i> KYC Management
+                </a>
+                <a href="users.html" class="admin-nav-link">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="transactions.html" class="admin-nav-link">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a>
+                <a href="settings.html" class="admin-nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="../../backend/logout.php" class="admin-nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>KYC Management</h1>
+                <div class="admin-header-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchKyc" placeholder="Search by user ID or name...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="kyc-requests">
+                <div class="kyc-table-container">
+                    <table class="kyc-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Submission Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kycTableBody">
+                            <!-- KYC requests will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prevPage" class="btn-secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button id="nextPage" class="btn-secondary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KYC Details Modal -->
+        <div id="kycModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>KYC Details</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="kyc-details">
+                        <div class="detail-group">
+                            <label>Full Name:</label>
+                            <span id="modalFullName"></span>
+                        </div>
+                        <div class="detail-group">
+                            <label>Date of Birth:</label>
+                            <span id="modalDob"></span>
+                        </div>
+                        <div class="detail-group">
+                            <label>Address:</label>
+                            <span id="modalAddress"></span>
+                        </div>
+                        <div class="detail-group">
+                            <label>City:</label>
+                            <span id="modalCity"></span>
+                        </div>
+                        <div class="detail-group">
+                            <label>Country:</label>
+                            <span id="modalCountry"></span>
+                        </div>
+                        <div class="detail-group">
+                            <label>ID Type:</label>
+                            <span id="modalIdType"></span>
+                        </div>
+                    </div>
+                    <div class="document-preview">
+                        <div class="preview-section">
+                            <h3>ID Document</h3>
+                            <img id="modalIdDocument" src="" alt="ID Document">
+                        </div>
+                        <div class="preview-section">
+                            <h3>Selfie with ID</h3>
+                            <img id="modalSelfie" src="" alt="Selfie with ID">
+                        </div>
+                    </div>
+                    <div class="kyc-actions">
+                        <button id="approveKyc" class="btn-success">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button id="rejectKyc" class="btn-danger">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                        <textarea id="rejectionReason" placeholder="Reason for rejection (required for rejection)"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/admin/kyc-management.js"></script>
+</body>
+</html>

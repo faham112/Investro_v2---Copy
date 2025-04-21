@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestPro - Your Investment Partner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --dark-bg: #1a1f25;
+            --darker-bg: #0f1b21;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header and Navigation Styles */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(26, 42, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Logo Styles */
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #b99730;
+        }
+
+        /* Desktop Navigation */
+        .desktop-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* Header Controls (Hamburger & Login) */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Hamburger Button */
+        .menu-toggle {
+            display: none;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hamburger {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--gold);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .menu-toggle.active .hamburger span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .menu-toggle.active .hamburger span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active .hamburger span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 42, 59, 0.98);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-menu-links {
+            padding: 1rem 2rem;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Ensure content below header isn't affected */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Modern Button Styles */
+        .btn {
+            padding: 0.35rem 0.9rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .btn-outline {
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+            }
+
+            .btn {
+                padding: 0.25rem 0.7rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 100px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(26, 31, 37, 0.95) 0%, rgba(15, 27, 33, 0.95) 100%);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/images/pattern-bg.png') repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            padding-right: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(to right, #ffffff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            display: block;
+            color: var(--gold);
+            -webkit-text-fill-color: var(--gold);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-feature i {
+            font-size: 1.5rem;
+            color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-feature span {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .start-btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: var(--gold);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .learn-btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .learn-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            position: relative;
+            background: rgba(15, 27, 33, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 991px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                text-align: center;
+            }
+
+            .hero-features {
+                justify-content: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-features {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .start-btn, .learn-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .hero-section {
+                padding: 40px 0;
+            }
+
+            .hero-content {
+                padding: 0 12px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero-description {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+            }
+
+            .hero-features {
+                gap: 0.8rem;
+            }
+
+            .hero-feature {
+                padding: 0.5rem;
+                gap: 0.8rem;
+            }
+
+            .hero-feature i {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .hero-feature span {
+                font-size: 0.9rem;
+            }
+
+            .hero-cta {
+                gap: 0.8rem;
+            }
+
+            .start-btn, .learn-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .hero-stats {
+                padding: 1rem;
+                gap: 1rem;
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item {
+                padding: 0.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 325px) {
+            .hero-section {
+                padding: 30px 0;
+            }
+
+            .hero-content {
+                padding: 0 10px;
+            }
+
+            .hero-title {
+                font-size: 1.6rem;
+            }
+
+            .hero-description {
+                font-size: 0.9rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .hero-feature {
+                padding: 0.4rem;
+                gap: 0.6rem;
+            }
+
+            .hero-feature i {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+
+            .hero-feature span {
+                font-size: 0.85rem;
+            }
+
+            .start-btn, .learn-btn {
+                padding: 0.7rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+        }
+
+        /* Plans Section */
+        .investment-plans {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .plans-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .plans-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .plans-header h2 {
+            font-size: 2.5rem;
+            color: #b99730;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .plans-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-card {
+            background: rgba(20, 30, 40, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(185, 151, 48, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(185, 151, 48, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+        }
+
+        .plan-icon i {
+            font-size: 2rem;
+            color: #b99730;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .plan-roi {
+            font-size: 1.8rem;
+            color: #b99730;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .plan-roi span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem;
+        }
+
+        .plan-features li {
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .plan-features i {
+            color: #b99730;
+            font-size: 0.9rem;
+        }
+
+        .invest-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #b99730;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .invest-btn:hover {
+            background: #a88628;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1024px) {
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .plans-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .calculator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .calculator-header h2 {
+            font-size: 2.5rem;
+            color: #b99730;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .calculator-input {
+            background: rgba(20, 30, 40, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .calculator-output {
+            background: rgba(20, 30, 40, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(185, 151, 48, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #b99730;
+            outline: none;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #b99730;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .calc-btn:hover {
+            background: #a88628;
+            transform: translateY(-2px);
+        }
+
+        .projected-earnings {
+            color: #fff;
+        }
+
+        .projected-earnings h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .earnings-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .earning-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(185, 151, 48, 0.1);
+        }
+
+        .earning-item .label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+        }
+
+        .earning-item .value {
+            color: #b99730;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* How to Start Section */
+        .start-investing {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(185, 151, 48, 0.1);
+            border-bottom: 1px solid rgba(185, 151, 48, 0.1);
+        }
+
+        .start-investing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #b99730;
+            margin-bottom: 3rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(185, 151, 48, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(185, 151, 48, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(185, 151, 48, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #b99730, #8B7355);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 4px 15px rgba(185, 151, 48, 0.3);
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            color: #b99730;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .step-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .steps-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .start-investing h2 {
+                font-size: 2rem;
+                padding: 0 1rem;
+            }
+
+            .step-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        /* Join Community Section */
+        .join-community {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(185, 151, 48, 0.1);
+        }
+
+        .join-community-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .join-community h2 {
+            font-size: 2.5rem;
+            color: #b99730;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .join-community p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-channels {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .channel-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(185, 151, 48, 0.2);
+            background: rgba(185, 151, 48, 0.05);
+            text-decoration: none;
+        }
+
+        .channel-link:hover {
+            transform: translateY(-5px);
+            border-color: rgba(185, 151, 48, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .channel-link i {
+            font-size: 1.5rem;
+        }
+
+        .whatsapp-link {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(37, 211, 102, 0.05));
+        }
+
+        .whatsapp-link:hover {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.2), rgba(37, 211, 102, 0.1));
+        }
+
+        .telegram-link {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.1), rgba(0, 136, 204, 0.05));
+        }
+
+        .telegram-link:hover {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(0, 136, 204, 0.1));
+        }
+
+        @media (max-width: 768px) {
+            .join-community h2 {
+                font-size: 2rem;
+            }
+
+            .channel-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Invest<span>RO</span></a>
+            
+            <nav class="desktop-menu">
+                <ul class="nav-links">
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./pages/features.html">Features</a></li>
+                    <li><a href="./pages/plans.html">Plans</a></li>
+                    <li><a href="./pages/calculator.html">Calculator</a></li>
+                    <li><a href="./pages/about.html">About</a></li>
+                    <li><a href="./pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <a href="pages/login.html" class="btn btn-outline">
+                    <i class="fas fa-user"></i>
+                    Login
+                </a>
+                <button class="menu-toggle">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <nav class="mobile-menu">
+            <div class="mobile-menu-links">
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <a href="#features"><i class="fas fa-star"></i> Features</a>
+                <a href="#plans"><i class="fas fa-layer-group"></i> Plans</a>
+                <a href="#calculator"><i class="fas fa-calculator"></i> Calculator</a>
+                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking a link
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target) && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    </script>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <h1 class="hero-title">Grow Your Wealth with <span>InvestPro</span></h1>
+                    <p class="hero-description">Earn daily profits with our secure & trusted investment platform. Start your journey to financial freedom today.</p>
+                    
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Up to 5% Daily ROI</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-wallet"></i>
+                            <span>Instant Withdrawals</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure & Reliable</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-headset"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-cta">
+                        <a href="#plans" class="start-btn">
+                            Start Investing Now
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#how-it-works" class="learn-btn">
+                            Learn More
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$10M+</div>
+                        <div class="stat-label">Total Investments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">50K+</div>
+                        <div class="stat-label">Active Investors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5%</div>
+                        <div class="stat-label">Daily ROI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose InvestPro</h2>
+            <p class="section-subtitle">Experience the benefits of smart investing</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Platform</h3>
+                    <p>Your investments are protected with state-of-the-art security measures</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Quick Withdrawals</h3>
+                    <p>Get your earnings instantly with our automated withdrawal system</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>High Returns</h3>
+                    <p>Earn competitive daily returns on your investments</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated team is always here to help you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="investment-plans">
+        <div class="plans-container">
+            <div class="plans-header">
+                <h2>Investment Plans</h2>
+                <p>Choose the perfect plan to grow your wealth</p>
+            </div>
+            
+            <div class="plans-grid">
+                <!-- Starter Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3 class="plan-name">Starter Plan</h3>
+                    <div class="plan-roi">
+                        1.5% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 10 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 50 - PKR 500 Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal Return</li>
+                        <li><i class="fas fa-headset"></i> 24/7 Support</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+
+                <!-- Silver Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="plan-name">Silver Plan</h3>
+                    <div class="plan-roi">
+                        2.2% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 20 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 500 - PKR 2000 Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal Return</li>
+                        <li><i class="fas fa-headset"></i> Priority Support</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+
+                <!-- Gold Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="plan-name">Gold Plan</h3>
+                    <div class="plan-roi">
+                        3.0% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 30 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 2000 - PKR 5000 Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal + Bonus</li>
+                        <li><i class="fas fa-headset"></i> VIP Support</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+
+                <!-- Platinum Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="plan-name">Platinum Plan</h3>
+                    <div class="plan-roi">
+                        3.8% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 45 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 5000 - PKR 10,000 Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal + Bonus</li>
+                        <li><i class="fas fa-user-tie"></i> Personal Manager</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+
+                <!-- Diamond Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-diamond"></i>
+                    </div>
+                    <h3 class="plan-name">Diamond Plan</h3>
+                    <div class="plan-roi">
+                        4.5% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 60 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 10,000 - PKR 25,000 Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal + Bonus</li>
+                        <li><i class="fas fa-headset"></i> Dedicated Support</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+
+                <!-- VIP Plan -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 class="plan-name">VIP Plan</h3>
+                    <div class="plan-roi">
+                        5.5% <span>Daily ROI</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-calendar"></i> 90 Days Duration</li>
+                        <li><i class="fas fa-money-bill"></i> PKR 25,000+ Investment</li>
+                        <li><i class="fas fa-undo"></i> Principal + Bonus</li>
+                        <li><i class="fas fa-star"></i> Executive Support</li>
+                    </ul>
+                    <button class="invest-btn">Invest Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section">
+        <div class="calculator-container">
+            <div class="calculator-header">
+                <h2><i class="fas fa-coins"></i> Investment Calculator</h2>
+            </div>
+            
+            <div class="calculator-grid">
+                <div class="calculator-input">
+                    <form id="calculatorForm" onsubmit="calculateInvestment(event)">
+                        <div class="input-group">
+                            <label><i class="fas fa-money-bill"></i> Investment Amount (PKR)</label>
+                            <input type="number" id="initialAmount" required placeholder="Enter amount">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label><i class="fas fa-list"></i> Select Plan</label>
+                            <select id="investmentPlan" required>
+                                <option value="starter">Starter Plan (1.5% Daily)</option>
+                                <option value="silver">Silver Plan (2% Daily)</option>
+                                <option value="gold">Gold Plan (2.5% Daily)</option>
+                                <option value="platinum">Platinum Plan (3% Daily)</option>
+                                <option value="diamond">Diamond Plan (3.5% Daily)</option>
+                                <option value="vip">VIP Plan (4% Daily)</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="calc-btn">
+                            <i class="fas fa-calculator"></i> Calculate Earnings
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="calculator-output">
+                    <div class="projected-earnings">
+                        <h3><i class="fas fa-chart-line"></i> Projected Earnings</h3>
+                        <div class="earnings-grid">
+                            <div class="earning-item">
+                                <div class="label">
+                                    <i class="fas fa-sun"></i> Daily Profit
+                                </div>
+                                <div class="value" id="dailyProfit">Rs0.00</div>
+                            </div>
+                            
+                            <div class="earning-item">
+                                <div class="label">
+                                    <i class="fas fa-calendar-week"></i> Weekly Profit
+                                </div>
+                                <div class="value" id="weeklyProfit">Rs0.00</div>
+                            </div>
+                            
+                            <div class="earning-item">
+                                <div class="label">
+                                    <i class="fas fa-calendar"></i> Monthly Profit
+                                </div>
+                                <div class="value" id="monthlyProfit">Rs0.00</div>
+                            </div>
+                            
+                            <div class="earning-item">
+                                <div class="label">
+                                    <i class="fas fa-chart-bar"></i> Total Return
+                                </div>
+                                <div class="value" id="totalReturn">Rs0.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="join-community">
+        <div class="join-community-container">
+            <h2>Join Our Community</h2>
+            <p>Stay connected with our growing community of investors. Get instant updates, expert insights, and connect with fellow investors.</p>
+            <div class="social-channels">
+                <a href="https://wa.me/your_whatsapp_number" class="channel-link whatsapp-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    Join WhatsApp Channel
+                </a>
+                <a href="https://t.me/your_telegram_channel" class="channel-link telegram-link" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    Join Telegram Channel
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="start-investing">
+        <h2>Started investing with Investro</h2>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Create an account</h3>
+                <p class="step-description">Start your investment journey by creating a secure account with Investro. Quick and easy registration process to get you started.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Choose plan</h3>
+                <p class="step-description">Select from our range of investment plans tailored to meet your financial goals and investment capacity.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Get profit</h3>
+                <p class="step-description">Watch your investments grow and receive consistent returns based on your chosen investment plan.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About InvestPro</h3>
+                <p>Your trusted partner in wealth generation. We provide secure, transparent, and innovative investment solutions.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#plans">Investment Plans</a></li>
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@investpro.com</li>
+                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Investment Street, NY</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 InvestPro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

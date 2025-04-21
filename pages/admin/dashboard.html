@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Investro</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d4af37;
+            --dark: #1a1f25;
+            --darker: #0f1b21;
+            --light: #ffffff;
+            --gray: #a0a0a0;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: absolute;
+            right: -40px;
+            top: 20px;
+            background: var(--primary);
+            color: var(--darker);
+            width: 40px;
+            height: 40px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .admin-nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+        }
+
+        .admin-nav-link[onclick="handleLogout()"] {
+            margin-top: auto;
+            color: #ff6b6b;
+        }
+
+        .admin-nav-link[onclick="handleLogout()"]:hover {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+        }
+
+        /* Main Content Styles */
+        .admin-main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .admin-header {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .date-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-filter select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-icon.users { background: rgba(64, 196, 255, 0.1); color: #40c4ff; }
+        .stat-icon.investments { background: rgba(129, 199, 132, 0.1); color: #81c784; }
+        .stat-icon.revenue { background: rgba(212, 175, 55, 0.1); color: #d4af37; }
+        .stat-icon.transactions { background: rgba(255, 138, 101, 0.1); color: #ff8a65; }
+
+        .stat-info h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Section Styles */
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .view-all-btn {
+            background: var(--primary);
+            color: var(--darker);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: #c4a030;
+            transform: translateY(-1px);
+        }
+
+        /* Status Badge Styles */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.active {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .status-badge.suspended {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .status-badge.blocked {
+            background: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+
+        /* Action Button Styles */
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: #c4a030;
+            transform: translateY(-1px);
+        }
+
+        /* Activity Feed Enhancements */
+        .activity-section {
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .sidebar-open .admin-sidebar {
+                transform: translateX(0);
+            }
+
+            .activity-section {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .date-filter {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .date-filter select {
+                width: 100%;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="admin-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="users.html" class="admin-nav-link">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="./transactions.html" class="admin-nav-link">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a>
+                <a href="kyc-management.html" class="admin-nav-link">
+                    <i class="fas fa-id-card"></i> KYC Management
+                </a>
+                <a href="settings.html" class="admin-nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="admin-nav-link" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Welcome back, Faham!</h1>
+                <div class="date-filter">
+                    <label for="timeRange">Time Range:</label>
+                    <select id="timeRange" onchange="updateDashboard()">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon users">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2,451</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon investments">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,257</h3>
+                        <p>Active Investments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>$847K</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>3,842</h3>
+                        <p>Transactions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Overview Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Recent Users</h3>
+                    <a href="users.html" class="view-all-btn">View All Users</a>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Joined Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentUsers">
+                            <!-- Recent users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="activity-section">
+                <div class="section-header">
+                    <h3>Recent Activity</h3>
+                    <button class="chart-btn" onclick="refreshActivity()">Refresh</button>
+                </div>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityTableBody">
+                            <!-- Activity items will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminLastActive');
+            localStorage.removeItem('adminRememberMe');
+            window.location.href = 'login.html';
+        }
+
+        function checkAuth() {
+            const adminToken = localStorage.getItem('adminToken');
+            const adminLastActive = localStorage.getItem('adminLastActive');
+            const adminRememberMe = localStorage.getItem('adminRememberMe');
+            
+            if (!adminToken) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const currentTime = new Date().getTime();
+            const sessionTimeout = 30 * 60 * 1000; // 30 minutes
+
+            if (adminRememberMe !== 'true' && (currentTime - adminLastActive) > sessionTimeout) {
+                // Session expired
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('adminLastActive');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Update last active time
+            localStorage.setItem('adminLastActive', currentTime);
+        }
+
+        function generateActivity() {
+            const activities = [
+                { user: 'John Doe', action: 'New Investment', amount: '1,000', date: '2025-02-23' },
+                { user: 'Jane Smith', action: 'Withdrawal', amount: '500', date: '2025-02-23' },
+                { user: 'Mike Johnson', action: 'Account Created', amount: null, date: '2025-02-23' },
+                { user: 'Sarah Wilson', action: 'Investment Update', amount: '2,500', date: '2025-02-22' },
+                { user: 'Tom Brown', action: 'Profile Updated', amount: null, date: '2025-02-22' }
+            ];
+            return activities;
+        }
+
+        function refreshActivity() {
+            updateActivityTable();
+        }
+
+        function generateRecentUsers() {
+            const users = [
+                { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active', joined: '2025-02-23' },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'active', joined: '2025-02-23' },
+                { id: 3, name: 'Mike Johnson', email: 'mike@example.com', status: 'suspended', joined: '2025-02-22' },
+                { id: 4, name: 'Sarah Wilson', email: 'sarah@example.com', status: 'active', joined: '2025-02-22' },
+                { id: 5, name: 'Tom Brown', email: 'tom@example.com', status: 'blocked', joined: '2025-02-21' }
+            ];
+            return users;
+        }
+
+        function updateRecentUsers() {
+            const tableBody = document.getElementById('recentUsers');
+            const users = generateRecentUsers();
+            
+            tableBody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <span class="status-badge ${user.status}">${
+                            user.status.charAt(0).toUpperCase() + user.status.slice(1)
+                        }</span>
+                    </td>
+                    <td>${user.joined}</td>
+                    <td>
+                        <a href="users.html?id=${user.id}" class="action-btn" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <button class="action-btn" title="Edit User" onclick="window.location.href='users.html?id=${user.id}&action=edit'">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateActivityTable() {
+            const tableBody = document.getElementById('activityTableBody');
+            const activities = generateActivity();
+            
+            tableBody.innerHTML = activities.map(activity => `
+                <tr>
+                    <td>${activity.user}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.amount ? '$' + activity.amount : '-'}</td>
+                    <td>${activity.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateDashboard() {
+            // Check authentication before updating
+            checkAuth();
+
+            const statsCards = document.querySelectorAll('.stat-card');
+            
+            // Add loading state
+            statsCards.forEach(card => card.classList.add('loading'));
+            
+            setTimeout(() => {
+                generateActivity();
+                updateActivityTable();
+                updateRecentUsers();
+                
+                // Remove loading state
+                statsCards.forEach(card => card.classList.remove('loading'));
+            }, 1000);
+        }
+
+        let dashboardRefreshInterval;
+
+        // Initialize Dashboard
+        window.addEventListener('load', function() {
+            checkAuth();
+            updateDashboard();
+            
+            // Clear any existing interval
+            if (dashboardRefreshInterval) {
+                clearInterval(dashboardRefreshInterval);
+            }
+            
+            // Set new refresh interval
+            dashboardRefreshInterval = setInterval(() => {
+                // Only refresh if the page is visible
+                if (!document.hidden) {
+                    updateDashboard();
+                }
+            }, 300000); // Every 5 minutes
+        });
+
+        // Handle page visibility change
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                updateDashboard();
+            }
+        });
+    </script>
+</body>
+</html>

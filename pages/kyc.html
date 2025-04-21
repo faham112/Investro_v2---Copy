@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Verification - InvestPro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="kyc-section">
+            <h2>KYC Verification</h2>
+            <div id="kycStatus" class="kyc-status pending">
+                <i class="fas fa-clock"></i>
+                <span>Verification Status: <strong id="statusText">Not Submitted</strong></span>
+            </div>
+
+            <form id="kycForm" class="kyc-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name (as per ID)</label>
+                    <input type="text" id="fullName" name="full_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select Country</option>
+                            <!-- Countries will be populated via JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="idType">ID Type</label>
+                    <select id="idType" name="id_type" required>
+                        <option value="">Select ID Type</option>
+                        <option value="passport">Passport</option>
+                        <option value="national_id">National ID</option>
+                        <option value="drivers_license">Driver's License</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="idDocument">ID Document</label>
+                    <div class="file-upload">
+                        <input type="file" id="idDocument" name="id_document" accept="image/*" required>
+                        <div class="upload-preview" id="idPreview"></div>
+                    </div>
+                    <small>Upload a clear photo of your ID document</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="selfie">Selfie with ID</label>
+                    <div class="file-upload">
+                        <input type="file" id="selfie" name="selfie" accept="image/*" required>
+                        <div class="upload-preview" id="selfiePreview"></div>
+                    </div>
+                    <small>Upload a photo of yourself holding your ID document</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Submit Verification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../js/kyc.js"></script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - InvestPro Admin</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="admin-body">
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="users.html" class="admin-nav-link active">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="./transactions.html" class="admin-nav-link">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a>
+                <a href="kyc-management.html" class="admin-nav-link">
+                    <i class="fas fa-id-card"></i> KYC Management
+                </a>
+                <a href="security.html" class="admin-nav-link">
+                    <i class="fas fa-shield-alt"></i> Security
+                </a>
+                <a href="settings.html" class="admin-nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="admin-nav-link" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Welcome back, Faham!</h1>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" id="userSearch" placeholder="Search users...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-box">
+                        <select id="statusFilter">
+                            <option value="">All Statuses</option>
+                            <option value="active">Active</option>
+                            <option value="suspended">Suspended</option>
+                            <option value="blocked">Blocked</option>
+                        </select>
+                        <select id="kycFilter">
+                            <option value="">All KYC Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="users-grid">
+                <div class="users-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Email</th>
+                                <th>Full Name</th>
+                                <th>Status</th>
+                                <th>KYC Status</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="usersPagination">
+                        <!-- Pagination will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="user-details-grid">
+                    <div class="user-info-section">
+                        <h3>Basic Information</h3>
+                        <div id="userBasicInfo">
+                            <!-- Basic info will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="user-stats-section">
+                        <h3>Account Statistics</h3>
+                        <div id="userStats">
+                            <!-- Stats will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="user-actions-section">
+                        <h3>Actions</h3>
+                        <div class="action-buttons">
+                            <button id="resetPasswordBtn" class="btn-warning">
+                                <i class="fas fa-key"></i> Reset Password
+                            </button>
+                            <button id="toggleStatusBtn" class="btn-danger">
+                                <i class="fas fa-ban"></i> Suspend Account
+                            </button>
+                            <button id="view2FABtn" class="btn-info">
+                                <i class="fas fa-shield-alt"></i> 2FA Status
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="user-activity-section">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-tabs">
+                            <button class="tab-btn" data-tab="transactions">Transactions</button>
+                            <button class="tab-btn" data-tab="withdrawals">Withdrawals</button>
+                            <button class="tab-btn" data-tab="logins">Login History</button>
+                        </div>
+                        <div class="tab-content" id="transactionHistory">
+                            <div class="transaction-filters">
+                                <select id="transactionStatus">
+                                    <option value="all">All Transactions</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="transaction-list">
+                                <!-- Transactions will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="tab-content" id="withdrawalHistory">
+                            <div class="withdrawal-filters">
+                                <select id="withdrawalStatus">
+                                    <option value="all">All Withdrawals</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="withdrawal-list">
+                                <!-- Withdrawals will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="tab-content" id="loginHistory">
+                            <!-- Login history will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Reset Modal -->
+    <div id="passwordResetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Password Reset</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    This will reset the user's password and generate a temporary password.
+                </div>
+                <div class="temp-password-box hidden">
+                    <h3>Temporary Password:</h3>
+                    <div class="password-display">
+                        <span id="tempPassword"></span>
+                        <button id="copyPassword" class="btn-secondary">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="password-note">
+                        Make sure to securely communicate this password to the user.
+                        They will be required to change it upon their next login.
+                    </p>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirmResetBtn" class="btn-danger">
+                        Reset Password
+                    </button>
+                    <button class="btn-secondary close-modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Transaction and Withdrawal Styles */
+        .transaction-item,
+        .withdrawal-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .transaction-details,
+        .withdrawal-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .transaction-amount,
+        .withdrawal-amount {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .transaction-date,
+        .withdrawal-date {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .transaction-status,
+        .withdrawal-status {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .status-approved {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .status-rejected {
+            background: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-approve,
+        .btn-reject {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-approve {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .btn-approve:hover {
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .btn-reject {
+            background: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+
+        .btn-reject:hover {
+            background: rgba(244, 67, 54, 0.2);
+        }
+
+        .transaction-filters,
+        .withdrawal-filters {
+            margin-bottom: 15px;
+        }
+
+        .transaction-filters select,
+        .withdrawal-filters select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            padding: 8px;
+            border-radius: 6px;
+            width: 200px;
+        }
+    </style>
+
+    <script src="../../js/admin/users.js"></script>
+    <script>
+        function displayTransactions(transactions) {
+            const container = document.querySelector('.transaction-list');
+            container.innerHTML = transactions.map(transaction => `
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-amount">${formatCurrency(transaction.amount)}</div>
+                        <div class="transaction-type">${transaction.type}</div>
+                        <div class="transaction-date">${formatDate(transaction.date)}</div>
+                    </div>
+                    <div class="transaction-status status-${transaction.status.toLowerCase()}">
+                        ${capitalizeFirst(transaction.status)}
+                    </div>
+                    ${transaction.status === 'pending' ? `
+                        <div class="action-buttons">
+                            <button class="btn-approve" onclick="approveTransaction(${transaction.id})">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="rejectTransaction(${transaction.id})">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function displayWithdrawals(withdrawals) {
+            const container = document.querySelector('.withdrawal-list');
+            container.innerHTML = withdrawals.map(withdrawal => `
+                <div class="withdrawal-item">
+                    <div class="withdrawal-details">
+                        <div class="withdrawal-amount">${formatCurrency(withdrawal.amount)}</div>
+                        <div class="withdrawal-method">${withdrawal.method}</div>
+                        <div class="withdrawal-date">${formatDate(withdrawal.date)}</div>
+                    </div>
+                    <div class="withdrawal-status status-${withdrawal.status.toLowerCase()}">
+                        ${capitalizeFirst(withdrawal.status)}
+                    </div>
+                    ${withdrawal.status === 'pending' ? `
+                        <div class="action-buttons">
+                            <button class="btn-approve" onclick="approveWithdrawal(${withdrawal.id})">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="rejectWithdrawal(${withdrawal.id})">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function approveTransaction(transactionId) {
+            updateTransactionStatus(transactionId, 'approved');
+        }
+
+        function rejectTransaction(transactionId) {
+            updateTransactionStatus(transactionId, 'rejected');
+        }
+
+        function approveWithdrawal(withdrawalId) {
+            updateWithdrawalStatus(withdrawalId, 'approved');
+        }
+
+        function rejectWithdrawal(withdrawalId) {
+            updateWithdrawalStatus(withdrawalId, 'rejected');
+        }
+
+        function updateTransactionStatus(transactionId, status) {
+            // Show confirmation dialog
+            if (!confirm(`Are you sure you want to ${status} this transaction?`)) {
+                return;
+            }
+
+            // Add loading state
+            showLoading(true);
+
+            // Make API call to update status
+            fetch('../../backend/admin/transactions.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'update_status',
+                    transaction_id: transactionId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(`Transaction ${status} successfully`, 'success');
+                    loadTransactions(); // Reload transactions
+                } else {
+                    showNotification(data.error || `Failed to ${status} transaction`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating transaction:', error);
+                showNotification('Error updating transaction', 'error');
+            })
+            .finally(() => {
+                showLoading(false);
+            });
+        }
+
+        function updateWithdrawalStatus(withdrawalId, status) {
+            // Show confirmation dialog
+            if (!confirm(`Are you sure you want to ${status} this withdrawal?`)) {
+                return;
+            }
+
+            // Add loading state
+            showLoading(true);
+
+            // Make API call to update status
+            fetch('../../backend/admin/withdrawals.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'update_status',
+                    withdrawal_id: withdrawalId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(`Withdrawal ${status} successfully`, 'success');
+                    loadWithdrawals(); // Reload withdrawals
+                } else {
+                    showNotification(data.error || `Failed to ${status} withdrawal`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating withdrawal:', error);
+                showNotification('Error updating withdrawal', 'error');
+            })
+            .finally(() => {
+                showLoading(false);
+            });
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        // Initialize filters
+        document.getElementById('transactionStatus').addEventListener('change', loadTransactions);
+        document.getElementById('withdrawalStatus').addEventListener('change', loadWithdrawals);
+
+        // Load initial data
+        loadTransactions();
+        loadWithdrawals();
+    </script>
+</body>
+
+</html>

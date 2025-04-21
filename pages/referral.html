@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - InvestPro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="referral-section">
+            <h2>Referral Program</h2>
+            <div class="referral-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Total Referrals</h3>
+                    <p id="totalReferrals">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>Total Earnings</h3>
+                    <p id="totalEarnings">$0.00</p>
+                </div>
+            </div>
+
+            <div class="referral-code-section">
+                <h3>Your Referral Code</h3>
+                <div class="code-display">
+                    <input type="text" id="referralCode" readonly>
+                    <button id="copyCode" class="btn-secondary">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button id="generateCode" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Generate New Code
+                    </button>
+                </div>
+            </div>
+
+            <div class="referral-link-section">
+                <h3>Share Your Referral Link</h3>
+                <div class="social-share">
+                    <button class="btn-social facebook">
+                        <i class="fab fa-facebook"></i> Share
+                    </button>
+                    <button class="btn-social twitter">
+                        <i class="fab fa-twitter"></i> Tweet
+                    </button>
+                    <button class="btn-social whatsapp">
+                        <i class="fab fa-whatsapp"></i> Share
+                    </button>
+                </div>
+            </div>
+
+            <div class="claim-referral-section">
+                <h3>Have a Referral Code?</h3>
+                <div class="claim-form">
+                    <input type="text" id="claimCode" placeholder="Enter referral code">
+                    <button id="claimButton" class="btn-primary">Claim Bonus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/referral.js"></script>
+</body>
+</html>

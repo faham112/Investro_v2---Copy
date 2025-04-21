@@ -1,0 +1,16 @@
+{
+    "name": "investro/investment-platform",
+    "description": "Secure investment platform with advanced security features",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "robthree/twofactorauth": "^1.8",
+        "paragonie/random_compat": ">=2",
+        "bacon/bacon-qr-code": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Investro\\": "src/"
+        }
+    }
+}

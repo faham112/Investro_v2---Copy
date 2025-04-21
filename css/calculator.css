@@ -1,0 +1,243 @@
+
+    /* Universal Box Sizing */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #d4af37;
+      --dark-bg: #0f1b21;
+      --text-light: #ffffff;
+    }
+
+    /* Base Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      margin: 0;
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    /* Main Container */
+    .main-container {
+      padding: 2rem 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header Section */
+    .header-section {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 0 1rem;
+    }
+
+    .section-title {
+      color: var(--gold);
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+
+    /* Calculator Grid */
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    /* Form & Results Sections */
+    .form-section,
+    .results-section {
+      background: #1a2a3b;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    /* Input Groups */
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 1rem;
+      background: #0f1b21;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 5px;
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+
+    /* Results Section */
+    .results-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-item span:first-child {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .result-item span:last-child {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    /* Button Styles */
+    #calculateBtn {
+      width: 100%;
+      background: var(--gold);
+      color: var(--dark-bg);
+      padding: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      transition: background 0.3s;
+    }
+
+    #calculateBtn:hover {
+      background: #c99a33;
+    }
+
+    /* Responsive Design */
+
+    /* Tablets and up */
+    @media (min-width: 768px) {
+      .main-container {
+        padding: 3rem 2rem;
+      }
+
+      .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+
+      .section-title {
+        font-size: 2.8rem;
+      }
+
+      .input-group label {
+        font-size: 1.1rem;
+      }
+
+      #calculateBtn {
+        font-size: 1.1rem;
+        padding: 1.3rem;
+      }
+    }
+
+    /* Laptops and larger tablets */
+    @media (min-width: 1024px) {
+      .main-container {
+        padding: 4rem 2rem;
+      }
+
+      .calculator-grid {
+        gap: 4rem;
+      }
+    }
+
+    /* Mobile Devices */
+    @media (max-width: 480px) {
+      .main-container {
+        padding: 1.5rem;
+      }
+
+      .form-section,
+      .results-section {
+        padding: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .input-group input,
+      .input-group select {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+
+      #calculateBtn {
+        font-size: 0.9rem;
+        padding: 1rem;
+      }
+    }
+
+    /* Additional Fine Tuning for very small devices */
+    @media (max-width: 425px) {
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .results-title {
+        font-size: 1.3rem;
+      }
+
+      .input-group label {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      #calculateBtn {
+        padding: 0.8rem;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }

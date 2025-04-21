@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Plans - Investro Admin</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar" id="adminSidebar">
+            <div class="admin-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Investro</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="users.html" class="admin-nav-link">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="transactions.html" class="admin-nav-link">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a>
+                <a href="investment-plans.html" class="admin-nav-link active">
+                    <i class="fas fa-chart-line"></i> Investment Plans
+                </a>
+                <a href="withdrawals.html" class="admin-nav-link">
+                    <i class="fas fa-money-bill-wave"></i> Withdrawals
+                </a>
+                <a href="kyc.html" class="admin-nav-link">
+                    <i class="fas fa-id-card"></i> KYC
+                </a>
+                <a href="settings.html" class="admin-nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="admin-nav-link" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="admin-header">
+                <div class="header-title">
+                    <h1>Investment Plans</h1>
+                </div>
+                <div class="header-actions">
+                    <button onclick="showAddPlanModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add New Plan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Investment Plans Statistics -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-content">
+                        <h4>Active Plans</h4>
+                        <p id="activePlansCount">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-content">
+                        <h4>Total Investors</h4>
+                        <p id="totalInvestors">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="stat-content">
+                        <h4>Total Invested</h4>
+                        <p id="totalInvested">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-content">
+                        <h4>Total ROI Paid</h4>
+                        <p id="totalRoiPaid">$0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plans Management Section -->
+            <div class="management-section">
+                <div class="section-header">
+                    <h3>Investment Plans</h3>
+                    <div class="header-actions">
+                        <button onclick="exportPlansData()" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Plans List -->
+                <div class="plans-container">
+                    <div class="plans-grid" id="plansList"></div>
+                </div>
+            </div>
+
+            <!-- Investment Analytics -->
+            <div class="analytics-section">
+                <div class="section-header">
+                    <h3>Investment Analytics</h3>
+                    <div class="header-actions">
+                        <select id="analyticsTimeframe" onchange="updateAnalytics()">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h4>Investment Distribution</h4>
+                        <canvas id="investmentDistribution"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Daily Investments</h4>
+                        <canvas id="dailyInvestments"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h4>ROI Payments</h4>
+                        <canvas id="roiPayments"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Plan Modal -->
+    <div id="planModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Plan</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="planForm" onsubmit="savePlan(event)">
+                    <input type="hidden" id="planId">
+                    <div class="form-group">
+                        <label>Plan Name:</label>
+                        <input type="text" id="planName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Minimum Investment:</label>
+                            <input type="number" id="minAmount" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Maximum Investment:</label>
+                            <input type="number" id="maxAmount" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ROI Percentage:</label>
+                            <input type="number" id="roiPercentage" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ROI Interval:</label>
+                            <select id="roiInterval" required>
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Duration (Days):</label>
+                            <input type="number" id="duration" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Referral Bonus (%):</label>
+                            <input type="number" id="referralBonus" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea id="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isActive" checked>
+                            Active
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Plan</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan Details Modal -->
+    <div id="planDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Plan Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+                    <button class="tab-btn" onclick="switchTab('investors')">Investors</button>
+                    <button class="tab-btn" onclick="switchTab('performance')">Performance</button>
+                </div>
+                <div id="planDetails"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this plan? This action cannot be undone.</p>
+                <p class="warning">Note: This will not affect existing investments under this plan.</p>
+                <div class="form-actions">
+                    <button onclick="confirmDelete()" class="btn btn-danger">Delete Plan</button>
+                    <button onclick="closeModal('deleteConfirmModal')" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/admin/investment-plans.js"></script>
+</body>
+</html>

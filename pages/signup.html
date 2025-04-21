@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup & Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --dark-bg: #0f1b21;
+      --header-gradient: linear-gradient(135deg, #1a2a3b, #0f1b21);
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: var(--dark-bg);
+      color: var(--white);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background: #1a2a3b;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h2 {
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 1rem;
+      padding-left: 2.5rem;
+      background: var(--dark-bg);
+      border: none;
+      border-radius: 5px;
+      color: var(--white);
+      font-size: 1rem;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--gold);
+      color: var(--dark-bg);
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .switch {
+      margin-top: 1rem;
+    }
+
+    .switch a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 425px) {
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="form-container">
+    <h2 id="form-title">Create an Account</h2>
+    
+    <div class="input-group">
+      <i class="fas fa-user"></i>
+      <input type="text" placeholder="Enter your full name (Min: 3 characters)" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" placeholder="Enter a valid email address" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder="Password (Min: 6 characters)" required>
+    </div>
+    
+    <button class="btn" id="submitBtn">Signup</button>
+    <p class="switch">Already have an account? <a href="#" id="toggleForm">Login</a></p>
+  </div>
+
+  <script>
+    const formContainer = document.getElementById('form-container');
+    const formTitle = document.getElementById('form-title');
+    const submitBtn = document.getElementById('submitBtn');
+    const toggleForm = document.getElementById('toggleForm');
+    let isSignup = true;
+
+    toggleForm.addEventListener('click', () => {
+      isSignup = !isSignup;
+      if (isSignup) {
+        formTitle.textContent = 'Create an Account';
+        submitBtn.textContent = 'Signup';
+        toggleForm.textContent = 'Login';
+      } else {
+        formTitle.textContent = 'Login';
+        submitBtn.textContent = 'Login';
+        toggleForm.textContent = 'Signup';
+      }
+    });
+  </script>
+</body>
+</html>
