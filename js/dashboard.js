@@ -4,8 +4,9 @@ import { observeAuthState, logoutUser } from './auth.js';
 document.addEventListener('DOMContentLoaded', function() {
     // Observe authentication state
     observeAuthState((user) => {
-        if (user) {
+        if (user && localStorage.getItem('loginSuccess') === 'true') {
             // User is logged in
+            localStorage.removeItem('loginSuccess');
             initializeUI(user);
             loadDashboardData();
             initializeChart(staticData.chartData);
