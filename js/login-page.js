@@ -68,7 +68,7 @@ if (loginForm) {
                 alert('Login successful!');
                 localStorage.setItem('loginSuccess', 'true');
                 // TODO: Redirect based on user role or to a default logged-in page
-                window.location.href = '/pages/user/dashboard.html'; // Redirect to user dashboard
+                window.location.href = '/pages/admin/dashboard.html'; // Redirect to admin dashboard
             })
             .catch((error) => {
                 const errorCode = error.code;

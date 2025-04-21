@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
             loadDashboardData();
             initializeNotifications();
             initializeTabs();
+
+            // Display welcome message with current date and time
+            displayWelcomeMessage();
             
             // Set up real-time updates
             setupWebSocket();
@@ -22,6 +25,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function displayWelcomeMessage() {
+    const welcomeMessageDiv = document.getElementById('welcome-message');
+    if (welcomeMessageDiv) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+        const dateTimeString = now.toLocaleDateString('en-US', options);
+        welcomeMessageDiv.textContent = `Today is ${dateTimeString}`;
+    }
+}
 
 // Load all dashboard data
 async function loadDashboardData() {

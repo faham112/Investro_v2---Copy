@@ -404,6 +404,7 @@
         <div class="admin-main">
             <div class="admin-header">
                 <h1>Welcome back, Faham!</h1>
+                <div id="welcome-message"></div>
                 <div class="date-filter">
                     <label for="timeRange">Time Range:</label>
                     <select id="timeRange" onchange="updateDashboard()">
@@ -502,7 +503,30 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            // ... rest of your config
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // User not logged in, redirect to login
+                window.location.href = "pages/admin/login.html";
+            } else {
+                // ✅ User is logged in
+                console.log("Logged in:", user.email);
+                // You can display user data on the page here
+            }
+        });
+
         function toggleSidebar() {
             const sidebar = document.getElementById('adminSidebar');
             sidebar.classList.toggle('active');
