@@ -59,7 +59,7 @@ if (loginForm) {
                 console.log('Firebase Login Successful:', user.uid);
                 alert('Login successful!');
                 // TODO: Redirect based on user role or to a default logged-in page
-                window.location.href = 'pages/user/dashboard.html'; // Redirect to user dashboard
+                window.location.href = '/pages/user/dashboard.html'; // Redirect to user dashboard
             })
             .catch((error) => {
                 const errorCode = error.code;
