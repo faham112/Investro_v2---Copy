@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function resetInactivityTimer() {
         clearTimeout(inactivityTimer);
-        inactivityTimer = setTimeout(logoutDueToInactivity, 300000); // 5 minutes (300000 ms)
+        inactivityTimer = setTimeout(logoutDueToInactivity, 1800000); // 30 minutes (1800000 ms)
     }
 
     function logoutDueToInactivity() {
