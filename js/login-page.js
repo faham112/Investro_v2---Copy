@@ -1,5 +1,9 @@
 // js/login-page.js
 import { loginUser } from './auth.js'; // Import the login function from auth.js
+import { getAuth, setPersistence, browserSessionPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+import app from './firebase-init.js';
+
+const auth = getAuth(app);
 
 // --- Password Toggle Functionality ---
 const togglePassword = document.getElementById('togglePassword');
@@ -51,8 +55,12 @@ if (loginForm) {
         const loginButton = loginForm.querySelector('button[type="submit"]');
         if(loginButton) loginButton.disabled = true;
 
-
-        loginUser(email, password)
+        // Set session persistence based on "remember me" checkbox
+        setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
+            .then(() => {
+                // Existing sign-in logic
+                return loginUser(email, password);
+            })
             .then((userCredential) => {
                 // Signed in successfully
                 const user = userCredential.user;
