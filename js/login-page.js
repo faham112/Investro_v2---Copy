@@ -1,9 +1,6 @@
 // js/login-page.js
 import { loginUser } from './auth.js'; // Import the login function from auth.js
-import { getAuth, setPersistence, browserSessionPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-import app from './firebase-init.js';
-
-const auth = getAuth(app);
+import auth from './firebase-init.js';
 
 // --- Password Toggle Functionality ---
 const togglePassword = document.getElementById('togglePassword');

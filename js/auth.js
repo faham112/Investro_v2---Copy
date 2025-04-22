@@ -1,8 +1,6 @@
 // auth.js
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-import app from './firebase-init.js'; // Ensure firebase-init.js is correctly imported
+import auth, { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase-init.js'; // Ensure firebase-init.js is correctly imported
 
-const auth = getAuth(app);
 
 // --- Authentication Functions ---
 
