@@ -1,5 +1,5 @@
 // auth.js
-import auth, { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase-init.js'; // Ensure firebase-init.js is correctly imported
+import auth, { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase-init.js';
 
 
 // --- Authentication Functions ---

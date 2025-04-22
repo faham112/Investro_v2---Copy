@@ -1,6 +1,8 @@
 // firebase-init.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
 import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 import firebaseConfig from './firebase-config.js';
 
 // Initialize Firebase
@@ -14,8 +16,9 @@ setPersistence(auth, browserLocalPersistence)
     console.error("Error setting persistence:", error);
   });
 
-// You can export the initialized app instance if needed elsewhere
-export default app;
+// Export the initialized app instance and auth functions
+export default auth;
+export { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
 
 // Optionally, you can also initialize other Firebase services here and export them
 // Example for Auth:
