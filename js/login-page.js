@@ -65,10 +65,16 @@ if (loginForm) {
                 // Signed in successfully
                 const user = userCredential.user;
                 console.log('Firebase Login Successful:', user.uid);
+                console.log('User email:', user.email); // Add this line
                 alert('Login successful!');
                 localStorage.setItem('loginSuccess', 'true');
-                // TODO: Redirect based on user role or to a default logged-in page
-                window.location.href = '/pages/admin/dashboard.html'; // Redirect to admin dashboard
+
+                // Redirect based on user role
+                if (user.email === 'admin@example.com') {
+                    window.location.href = '/pages/admin/dashboard.html'; // Redirect to admin dashboard
+                } else {
+                    window.location.href = '/pages/user/dashboard.html'; // Redirect to user dashboard
+                }
             })
             .catch((error) => {
                 const errorCode = error.code;
