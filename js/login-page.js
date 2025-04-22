@@ -66,12 +66,8 @@ if (loginForm) {
                 alert('Login successful!');
                 localStorage.setItem('loginSuccess', 'true');
 
-                // Redirect based on user role
-                if (user.email === 'admin@example.com') {
-                    window.location.href = '/pages/admin/dashboard.html'; // Redirect to admin dashboard
-                } else {
-                    window.location.href = '/pages/user/dashboard.html'; // Redirect to user dashboard
-                }
+                // Redirect to user dashboard
+                window.location.href = '/pages/user/dashboard.html';
             })
             .catch((error) => {
                 const errorCode = error.code;
