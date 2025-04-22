@@ -673,14 +673,15 @@ function getActivityIcon(type) {
 
 function getNotificationIcon(type) {
     const icons = {
-        withdrawal: 'fa-money-bill-transfer',
-        kyc: 'fa-id-card',
-        security: 'fa-shield-alt',
-        support: 'fa-headset',
-        system: 'fa-server'
+        'deposits': 'fa-money-bill-wave',
+        'withdrawals': 'fa-money-bill-transfer',
+        'kyc': 'fa-id-card',
+        'support': 'fa-headset',
+        'security': 'fa-shield-alt'
     };
     return icons[type] || 'fa-bell';
 }
+
 
 function formatChange(value) {
     if (value > 0) {

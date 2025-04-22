@@ -146,10 +146,6 @@ async function viewUser(userId) {
                         <span class="value">${formatCurrency(user.totalInvested)}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="label">Total Earnings</span>
-                        <span class="value">${formatCurrency(user.totalEarnings)}</span>
-                    </div>
-                    <div class="detail-item">
                         <span class="label">Referral Earnings</span>
                         <span class="value">${formatCurrency(user.referralEarnings)}</span>
                     </div>
@@ -298,209 +294,6 @@ function debounce(func, wait) {
     };
 }
 
-// Logout handler
-function handleLogout() {
-    localStorage.removeItem('adminToken');
-    window.location.href = '../login.html';
-}
-
-// Initialize components
-function initializeFilters() {
-    document.getElementById('userSearch').addEventListener('input', debounce(loadUsers, 500));
-    document.getElementById('statusFilter').addEventListener('change', loadUsers);
-    document.getElementById('kycFilter').addEventListener('change', loadUsers);
-}
-
-function initializeModals() {
-    // User Details Modal
-    const userModal = document.getElementById('userDetailsModal');
-    const passwordModal = document.getElementById('passwordResetModal');
-    
-    document.querySelectorAll('.close-modal').forEach(btn => {
-        btn.onclick = function() {
-            userModal.style.display = 'none';
-            passwordModal.style.display = 'none';
-        };
-    });
-    
-    document.getElementById('resetPasswordBtn').onclick = function() {
-        passwordModal.style.display = 'block';
-    };
-    
-    document.getElementById('confirmResetBtn').onclick = resetUserPassword;
-    
-    document.getElementById('copyPassword').onclick = function() {
-        const tempPassword = document.getElementById('tempPassword').textContent;
-        navigator.clipboard.writeText(tempPassword)
-            .then(() => showNotification('Password copied to clipboard', 'success'))
-            .catch(() => showNotification('Failed to copy password', 'error'));
-    };
-    
-    window.onclick = function(event) {
-        if (event.target === userModal) {
-            userModal.style.display = 'none';
-        }
-        if (event.target === passwordModal) {
-            passwordModal.style.display = 'none';
-        }
-    };
-}
-
-function initializeTabSystem() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tab = btn.dataset.tab;
-            
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.add('hidden'));
-            
-            btn.classList.add('active');
-            document.getElementById(tab + 'History').classList.remove('hidden');
-            
-            if (tab === 'transactions') {
-                loadTransactions();
-            } else if (tab === 'withdrawals') {
-                loadWithdrawals();
-            }
-        });
-    });
-}
-
-function updatePagination(totalCount) {
-    const totalPages = Math.ceil(totalCount / 20);
-    const pagination = document.getElementById('usersPagination');
-    
-    let html = '';
-    
-    if (currentPage > 1) {
-        html += `<button onclick="changePage(${currentPage - 1})" class="page-btn">&laquo; Previous</button>`;
-    }
-    
-    for (let i = 1; i <= totalPages; i++) {
-        if (
-            i === 1 ||
-            i === totalPages ||
-            (i >= currentPage - 2 && i <= currentPage + 2)
-        ) {
-            html += `<button onclick="changePage(${i})" class="page-btn ${i === currentPage ? 'active' : ''}">${i}</button>`;
-        } else if (i === currentPage - 3 || i === currentPage + 3) {
-            html += '<span class="page-ellipsis">...</span>';
-        }
-    }
-    
-    if (currentPage < totalPages) {
-        html += `<button onclick="changePage(${currentPage + 1})" class="page-btn">Next &raquo;</button>`;
-    }
-    
-    pagination.innerHTML = html;
-}
-
-function changePage(page) {
-    currentPage = page;
-    loadUsers();
-}
-
-// Load user transactions
-function loadTransactions() {
-    const status = document.getElementById('transactionStatus').value;
-    const userId = document.querySelector('#userDetailsModal').dataset.userId;
-    
-    showLoading(true);
-    
-    fetch(`../../backend/admin/transactions.php?user_id=${userId}&status=${status}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                displayTransactions(data.transactions);
-            } else {
-                showNotification(data.error || 'Failed to load transactions', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error loading transactions:', error);
-            showNotification('Error loading transactions', 'error');
-        })
-        .finally(() => {
-            showLoading(false);
-        });
-}
-
-// Load user withdrawals
-function loadWithdrawals() {
-    const status = document.getElementById('withdrawalStatus').value;
-    const userId = document.querySelector('#userDetailsModal').dataset.userId;
-    
-    showLoading(true);
-    
-    fetch(`../../backend/admin/withdrawals.php?user_id=${userId}&status=${status}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                displayWithdrawals(data.withdrawals);
-            } else {
-                showNotification(data.error || 'Failed to load withdrawals', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error loading withdrawals:', error);
-            showNotification('Error loading withdrawals', 'error');
-        })
-        .finally(() => {
-            showLoading(false);
-        });
-}
-
-// Handle tab switching
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove('active'));
-            // Hide all content
-            contents.forEach(c => c.style.display = 'none');
-            
-            // Add active class to clicked tab
-            tab.classList.add('active');
-            // Show corresponding content
-            const content = document.getElementById(`${tab.dataset.tab}History`);
-            if (content) {
-                content.style.display = 'block';
-            }
-            
-            // Load data based on active tab
-            if (tab.dataset.tab === 'transactions') {
-                loadTransactions();
-            } else if (tab.dataset.tab === 'withdrawals') {
-                loadWithdrawals();
-            }
-        });
-    });
-    
-    // Set initial active tab
-    const firstTab = tabs[0];
-    if (firstTab) {
-        firstTab.click();
-    }
-});
-
-// Helper function to format dates
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
 // Helper function to capitalize first letter
 function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -511,6 +304,8 @@ function showLoading(show) {
     const loader = document.querySelector('.loader');
     if (loader) {
         loader.style.display = show ? 'flex' : 'none';
+    } else {
+        loader.style.display = 'none';
     }
 }
 
@@ -556,7 +351,14 @@ function displayWithdrawals(withdrawals) {
 
 // Utility functions
 function formatDate(dateString) {
-    return new Date(dateString).toLocaleString();
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 function formatNumber(number) {
@@ -752,7 +554,7 @@ function displayUserDetails(user) {
         </div>
         <div class="stat-group">
             <label>Referrals:</label>
-            <span>${user.referral_count || 0}</span>
+            <span>$${formatNumber(user.referralEarnings || 0)}</span>
         </div>
         <div class="stat-group">
             <label>Failed Logins:</label>
@@ -850,7 +652,7 @@ function toggleUserStatus(userId, currentStatus) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification(`User ${newStatus === 'active' ? 'activated' : 'suspended'} successfully`, 'success');
+            showNotification(`Successfully updated ${selectedUsers.length} users`, 'success');
             loadUsers();
         } else {
             showNotification(data.error || 'Failed to update user status', 'error');
@@ -872,7 +674,7 @@ function resetUserPassword() {
         },
         body: JSON.stringify({
             action: 'reset_password',
-            user_id: currentUserId
+            user_id: userId
         })
     })
     .then(response => response.json())
@@ -950,7 +752,7 @@ function initializeTabSystem() {
 }
 
 function updatePagination(totalCount) {
-    const totalPages = Math.ceil(totalCount / USERS_PER_PAGE);
+    const totalPages = Math.ceil(totalCount / 20);
     const pagination = document.getElementById('usersPagination');
     
     let html = '';
@@ -983,355 +785,64 @@ function changePage(page) {
     loadUsers();
 }
 
-// Load user statistics
-function loadUserStats() {
-    fetch('../../backend/admin/users.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'get_stats'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            updateStats(data.stats);
-        } else {
-            showNotification(data.error || 'Failed to load user statistics', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error loading user statistics:', error);
-        showNotification('Error loading user statistics', 'error');
-    });
+// Utility functions
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(amount);
 }
 
-function updateStats(stats) {
-    document.getElementById('totalUsers').textContent = formatNumber(stats.total_users);
-    document.getElementById('activeUsers').textContent = formatNumber(stats.active_users);
-    document.getElementById('pendingKYC').textContent = formatNumber(stats.pending_kyc);
-    
-    document.getElementById('userGrowth').textContent = formatChange(stats.user_growth);
-    document.getElementById('activeGrowth').textContent = formatChange(stats.active_growth);
-    document.getElementById('kycGrowth').textContent = formatChange(stats.kyc_growth);
-}
-
-// Bulk actions
-function initializeCheckboxes() {
-    document.getElementById('selectAllUsers').addEventListener('change', function(e) {
-        const checkboxes = document.querySelectorAll('#usersList input[type="checkbox"]');
-        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
-    });
-}
-
-function getSelectedUserIds() {
-    const checkboxes = document.querySelectorAll('#usersList input[type="checkbox"]:checked');
-    return Array.from(checkboxes).map(checkbox => checkbox.value);
-}
-
-function showBulkActions() {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) {
-        showNotification('Please select users to perform bulk actions', 'warning');
-        return;
-    }
-    document.getElementById('bulkActionsModal').style.display = 'block';
-}
-
-function bulkUpdateStatus(status) {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) return;
-
-    showLoading(true);
-    fetch('../../backend/admin/users.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'bulk_update_status',
-            user_ids: selectedUsers,
-            status: status
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showNotification(`Successfully updated ${selectedUsers.length} users`, 'success');
-            loadUsers();
-            document.getElementById('bulkActionsModal').style.display = 'none';
-        } else {
-            showNotification(data.error || 'Failed to update users', 'error');
-        }
-        showLoading(false);
-    })
-    .catch(error => {
-        console.error('Error updating users:', error);
-        showNotification('Error updating users', 'error');
-        showLoading(false);
-    });
-}
-
-function bulkDelete() {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) return;
-
-    if (!confirm(`Are you sure you want to delete ${selectedUsers.length} users? This action cannot be undone.`)) {
-        return;
-    }
-
-    showLoading(true);
-    fetch('../../backend/admin/users.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'bulk_delete',
-            user_ids: selectedUsers
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showNotification(`Successfully deleted ${selectedUsers.length} users`, 'success');
-            loadUsers();
-            document.getElementById('bulkActionsModal').style.display = 'none';
-        } else {
-            showNotification(data.error || 'Failed to delete users', 'error');
-        }
-        showLoading(false);
-    })
-    .catch(error => {
-        console.error('Error deleting users:', error);
-        showNotification('Error deleting users', 'error');
-        showLoading(false);
-    });
-}
-
-function bulkExport() {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) return;
-
-    showLoading(true);
-    fetch('../../backend/admin/users.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'bulk_export',
-            user_ids: selectedUsers
-        })
-    })
-    .then(response => response.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'users_export.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-        
-        document.getElementById('bulkActionsModal').style.display = 'none';
-        showLoading(false);
-        showNotification('Export completed successfully', 'success');
-    })
-    .catch(error => {
-        console.error('Error exporting users:', error);
-        showNotification('Error exporting users', 'error');
-        showLoading(false);
-    });
-}
-
-// Email template handling
-function showEmailTemplate() {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) {
-        showNotification('Please select users to send email', 'warning');
-        return;
-    }
-    document.getElementById('emailTemplateModal').style.display = 'block';
-}
-
-document.getElementById('emailTemplate').addEventListener('change', function(e) {
-    const template = e.target.value;
-    if (template && template !== 'custom') {
-        loadEmailTemplate(template);
-    } else {
-        document.getElementById('emailSubject').value = '';
-        document.getElementById('emailMessage').value = '';
-    }
-});
-
-function loadEmailTemplate(template) {
-    fetch('../../backend/admin/email-templates.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'get_template',
-            template: template
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('emailSubject').value = data.subject;
-            document.getElementById('emailMessage').value = data.message;
-        } else {
-            showNotification(data.error || 'Failed to load email template', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error loading email template:', error);
-        showNotification('Error loading email template', 'error');
-    });
-}
-
-function sendBulkEmail() {
-    const selectedUsers = getSelectedUserIds();
-    if (selectedUsers.length === 0) return;
-
-    const subject = document.getElementById('emailSubject').value;
-    const message = document.getElementById('emailMessage').value;
-
-    if (!subject || !message) {
-        showNotification('Please fill in both subject and message', 'warning');
-        return;
-    }
-
-    showLoading(true);
-    fetch('../../backend/admin/users.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            action: 'send_bulk_email',
-            user_ids: selectedUsers,
-            subject: subject,
-            message: message
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showNotification(`Email sent to ${selectedUsers.length} users`, 'success');
-            document.getElementById('emailTemplateModal').style.display = 'none';
-        } else {
-            showNotification(data.error || 'Failed to send email', 'error');
-        }
-        showLoading(false);
-    })
-    .catch(error => {
-        console.error('Error sending email:', error);
-        showNotification('Error sending email', 'error');
-        showLoading(false);
-    });
-}
-
-// Load user transactions
-function loadTransactions() {
-    const status = document.getElementById('transactionStatus').value;
-    const userId = document.querySelector('#userDetailsModal').dataset.userId;
-    
-    showLoading(true);
-    
-    fetch(`../../backend/admin/transactions.php?user_id=${userId}&status=${status}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                displayTransactions(data.transactions);
-            } else {
-                showNotification(data.error || 'Failed to load transactions', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error loading transactions:', error);
-            showNotification('Error loading transactions', 'error');
-        })
-        .finally(() => {
-            showLoading(false);
-        });
-}
-
-// Load user withdrawals
-function loadWithdrawals() {
-    const status = document.getElementById('withdrawalStatus').value;
-    const userId = document.querySelector('#userDetailsModal').dataset.userId;
-    
-    showLoading(true);
-    
-    fetch(`../../backend/admin/withdrawals.php?user_id=${userId}&status=${status}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                displayWithdrawals(data.withdrawals);
-            } else {
-                showNotification(data.error || 'Failed to load withdrawals', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error loading withdrawals:', error);
-            showNotification('Error loading withdrawals', 'error');
-        })
-        .finally(() => {
-            showLoading(false);
-        });
-}
-
-// Handle tab switching
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove('active'));
-            // Hide all content
-            contents.forEach(c => c.style.display = 'none');
-            
-            // Add active class to clicked tab
-            tab.classList.add('active');
-            // Show corresponding content
-            const content = document.getElementById(`${tab.dataset.tab}History`);
-            if (content) {
-                content.style.display = 'block';
-            }
-            
-            // Load data based on active tab
-            if (tab.dataset.tab === 'transactions') {
-                loadTransactions();
-            } else if (tab.dataset.tab === 'withdrawals') {
-                loadWithdrawals();
-            }
-        });
-    });
-    
-    // Set initial active tab
-    const firstTab = tabs[0];
-    if (firstTab) {
-        firstTab.click();
-    }
-});
-
-// Helper function to format dates
 function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+    return new Date(dateString).toLocaleString();
+}
+
+function getStatusClass(status) {
+    const statusClasses = {
+        'active': 'success',
+        'inactive': 'warning',
+        'banned': 'danger'
+    };
+    return statusClasses[status] || 'default';
+}
+
+function getKycStatusClass(status) {
+    const statusClasses = {
+        'verified': 'success',
+        'pending': 'warning',
+        'rejected': 'danger'
+    };
+    return statusClasses[status] || 'default';
+}
+
+// Event listeners
+document.getElementById('searchUser').addEventListener('input', debounce(loadUsers, 300));
+document.getElementById('statusFilter').addEventListener('change', loadUsers);
+document.getElementById('kycFilter').addEventListener('change', loadUsers);
+
+// Close modal when clicking outside or on close button
+document.querySelector('.close-modal').addEventListener('click', () => {
+    document.getElementById('userModal').style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('userModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Debounce function for search input
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 // Helper function to capitalize first letter
@@ -1342,8 +853,10 @@ function capitalizeFirst(str) {
 // Show/hide loading indicator
 function showLoading(show) {
     const loader = document.querySelector('.loader');
-    if (loader) {
-        loader.style.display = show ? 'flex' : 'none';
+    if (show) {
+        loader.style.display = 'flex' : 'none';
+    } else {
+        loader.style.display = 'none';
     }
 }
 
@@ -1389,7 +902,14 @@ function displayWithdrawals(withdrawals) {
 
 // Utility functions
 function formatDate(dateString) {
-    return new Date(dateString).toLocaleString();
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 
 function formatNumber(number) {
@@ -1435,3 +955,19 @@ function formatChange(value) {
         return `<span class="text-muted">${formatNumber(value)}%</span>`;
     }
 }
+
+let currentUserId = null;
+const USERS_PER_PAGE = 20;
+let currentPage = 1;
+
+function initializeFilters() {
+    document.getElementById('userSearch').addEventListener('input', debounce(loadUsers, 500));
+    document.getElementById('statusFilter').addEventListener('change', loadUsers);
+    document.getElementById('kycFilter').addEventListener('change', loadUsers);
+}
+
+function loadUsers() {
+    const search = document.getElementById('userSearch').value;
+    const status = document.getElementById('statusFilter').value;
+    const kycStatus = document.getElementById('kycFilter').value;
+    const offset = (currentPage -
