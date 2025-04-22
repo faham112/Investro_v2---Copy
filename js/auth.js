@@ -12,7 +12,15 @@ export const registerUser = (email, password) => {
 
 // Sign in an existing user
 export const loginUser = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
+  console.log("loginUser called with:", email, password);
+  try {
+    const result = signInWithEmailAndPassword(auth, email, password);
+    console.log("signInWithEmailAndPassword successful:", result);
+    return result;
+  } catch (error) {
+    console.error("signInWithEmailAndPassword error:", error);
+    throw error; // Re-throw the error to be caught by the calling code
+  }
   // Add .then() and .catch() in your calling code to handle success/error
 };
 
