@@ -1,9 +1,18 @@
 // firebase-init.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import firebaseConfig from './firebase-config.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Persistence set to local");
+  })
+  .catch((error) => {
+    console.error("Error setting persistence:", error);
+  });
 
 // You can export the initialized app instance if needed elsewhere
 export default app;
