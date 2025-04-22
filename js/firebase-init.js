@@ -1,12 +1,22 @@
 // firebase-init.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+// firebase-init.js
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import firebaseConfig from './firebase-config.js';
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+
+// Check if Firebase App instance already exists
+if (!getApps().length) {
+  // Initialize Firebase ONLY if it hasn't been initialized yet
+  app = initializeApp(firebaseConfig);
+  console.log("Firebase initialized!"); // Add a log to confirm
+} else {
+  // Get the already initialized app
+  app = getApps()[0];
+  console.log("Firebase already initialized."); // Add a log
+}
+
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence)
   .then(() => {
