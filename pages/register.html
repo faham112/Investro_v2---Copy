@@ -350,40 +350,78 @@
                 <div class="logo">Investro</div>
                 <p>Create your account to start investing</p>
             </div>
+            <div id="messageContainer"></div>
             <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
+                    <div class="icon-container">
+                        <i class="fas fa-user"></i>
+                    </div>
                     <input type="text" id="fullName" required>
-                    <i class="fas fa-user"></i>
+                </div>
+                 <div class="form-group">
+                    <label for="userId">User ID</label>
+                     <div class="icon-container">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <input type="text" id="userId" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
+                     <div class="icon-container">
+                        <i class="fas fa-envelope"></i>
+                    </div>
                     <input type="email" id="email" required>
-                    <i class="fas fa-envelope"></i>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
+                     <div class="icon-container">
+                        <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility('password', 'togglePassword')"></i>
+                    </div>
                     <input type="password" id="password" required>
-                    <i class="fas fa-eye" id="togglePassword"></i>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
+                     <div class="icon-container">
+                        <i class="fas fa-eye" id="toggleConfirmPassword" onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword')"></i>
+                    </div>
                     <input type="password" id="confirmPassword" required>
-                    <i class="fas fa-eye" id="toggleConfirmPassword"></i>
                 </div>
+                <script>
+                    function togglePasswordVisibility(passwordId, iconId) {
+                        const passwordInput = document.getElementById(passwordId);
+                        const togglePasswordIcon = document.getElementById(iconId);
+
+                        if (passwordInput.type === "password") {
+                            passwordInput.type = "text";
+                            togglePasswordIcon.classList.remove("fa-eye");
+                            togglePasswordIcon.classList.add("fa-eye-slash");
+                        } else {
+                            passwordInput.type = "password";
+                            togglePasswordIcon.classList.remove("fa-eye-slash");
+                            togglePasswordIcon.classList.add("fa-eye");
+                        }
+                    }
+                </script>
                 <div class="terms">
                     <input type="checkbox" id="terms" required>
                     <label for="terms">
-                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        I agree to the <a href="#"><i class="fas fa-file-alt"></i> Terms of Service</a> and <a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
                     </label>
                 </div>
                 <button type="submit" class="register-button">Create Account</button>
                 <div class="login-link">
-                    Already have an account? <a href="login.html">Login</a>
+                    Already have an account? <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
                 </div>
             </form>
         </div>
     </main>
+    <style>
+        .icon-container {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    </style>
 
     <footer>
         <div class="footer-content">
@@ -393,9 +431,9 @@
 
     <!-- Firebase and Page Specific Scripts -->
     <!-- IMPORTANT: Ensure firebase-config.js has your actual Firebase credentials -->
-    <script type="module" src="../js/firebase-init.js"></script>
+    <script src="../js/firebase-init.js"></script>
     <!-- auth.js is implicitly loaded by register-page.js -->
-    <script type="module" src="../js/register-page.js"></script>
+    <script src="../js/register-page.js"></script>
 
 </body>
 </html>

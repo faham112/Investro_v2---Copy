@@ -1,42 +1,22 @@
-// firebase-init.js
-// firebase-init.js
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-import firebaseConfig from './firebase-config.js';
+const firebase = require("firebase/app");
+require("firebase/analytics");
 
-let app;
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC_RFY98xrBfLpYz3c_zw-fJc6pieGcA88",
+  authDomain: "webappfinal112.firebaseapp.com",
+  projectId: "webappfinal112",
+  storageBucket: "webappfinal112.firebasestorage.app",
+  messagingSenderId: "82896269063",
+  appId: "1:82896269063:web:37ecddbe1ab34407675fa2",
+  measurementId: "G-XV090SK0VK"
+};
 
-// Check if Firebase App instance already exists
-if (!getApps().length) {
-  // Initialize Firebase ONLY if it hasn't been initialized yet
-  app = initializeApp(firebaseConfig);
-  console.log("Firebase initialized!"); // Add a log to confirm
-} else {
-  // Get the already initialized app
-  app = getApps()[0];
-  console.log("Firebase already initialized."); // Add a log
-}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log("Persistence set to local");
-  })
-  .catch((error) => {
-    console.error("Error setting persistence:", error);
-  });
+// Obtain analytics instance
+firebase.analytics();
 
-// Export the initialized app instance and auth functions
-export default auth;
-export { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
-
-// Optionally, you can also initialize other Firebase services here and export them
-// Example for Auth:
-// import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-// export const auth = getAuth(app);
-
-// Example for Firestore:
-// import { getFirestore } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-// export const db = getFirestore(app);
-
-console.log("Firebase initialized successfully!"); // Optional: Confirmation message
+module.exports = firebase;
