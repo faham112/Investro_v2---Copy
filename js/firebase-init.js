@@ -1,7 +1,7 @@
 // firebase-init.js
 // firebase-init.js
-import { initializeApp, getApps } from "firebase/app";
-import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 import firebaseConfig from './firebase-config.js';
 
 let app;
