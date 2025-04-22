@@ -67,7 +67,7 @@ if (loginForm) {
                 localStorage.setItem('loginSuccess', 'true');
 
                 // Redirect to user dashboard
-                window.location.href = '/pages/user/dashboard.html';
+                window.location.replace('/pages/user/dashboard.html');
             })
             .catch((error) => {
                 const errorCode = error.code;
