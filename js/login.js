@@ -44,8 +44,11 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
           localStorage.setItem('username', email);
           localStorage.setItem('loginTime', new Date().getTime());
 
-          messageContainer.innerHTML = '<p style="color: green;">Login successful!</p>';
-          window.location.href = '/pages/user/dashboard.html';
+          userCredential.user.getIdToken().then(function(idToken) {
+            localStorage.setItem('jwtToken', idToken);
+            messageContainer.innerHTML = '<p style="color: green;">Login successful!</p>';
+            window.location.href = '/pages/user/dashboard.html';
+          });
         })
         .catch((error) => {
           var errorCode = error.code;
