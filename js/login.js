@@ -1,7 +1,4 @@
-import app from './firebase-config.js';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth(app);
+const auth = firebase.auth();
 
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,7 +21,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     }
 
     try {
-        signInWithEmailAndPassword(auth, email, password)
+        auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
