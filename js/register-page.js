@@ -14,13 +14,13 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     }
 
     try {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        window.firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
 
           // Store user data in Firebase
-          firebase.database().ref('users/' + user.uid).set({
+          window.firebase.database().ref('users/' + user.uid).set({
             fullName: fullName,
             email: email
           });

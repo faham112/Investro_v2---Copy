@@ -1,4 +1,4 @@
-const auth = firebase.auth();
+const auth = window.firebase.auth();
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
