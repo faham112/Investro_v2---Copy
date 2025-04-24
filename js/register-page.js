@@ -1,7 +1,4 @@
-import app from './firebase-config.js';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth(app);
+const auth = firebase.auth();
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -19,7 +16,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     }
 
     try {
-        createUserWithEmailAndPassword(auth, email, password)
+        auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
