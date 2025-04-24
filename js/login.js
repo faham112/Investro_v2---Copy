@@ -1,5 +1,3 @@
-import firebase from './firebase-init.js';
-
 const auth = firebase.auth();
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
