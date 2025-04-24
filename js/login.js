@@ -2,11 +2,6 @@ import firebase from './firebase-init.js';
 
 const auth = firebase.auth();
 
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     var username = document.getElementById('username').value;
@@ -15,12 +10,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     var messageContainer = document.getElementById('messageContainer');
 
     let email = username;
-    if (!isValidEmail(username)) {
-        // Assume it's a userId and fetch email from Firebase (not implemented)
-        // In a real application, you would fetch the email from Firebase using the userId
-        // For now, we'll just assume the userId is the email
-        console.log("Assuming userId is the email");
-    }
 
     try {
         auth.signInWithEmailAndPassword(email, password)
