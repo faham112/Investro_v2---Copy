@@ -1,4 +1,7 @@
+import firebase from './firebase-init.js';
+
 const auth = firebase.auth();
+const db = firebase.database();
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -20,9 +23,12 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
-          // Store the userId as a custom claim (not implemented)
-          // In a real application, you would store the userId as a custom claim in Firebase
-          console.log("Storing userId as a custom claim (not implemented)");
+
+          // Store user data in Firebase
+          db.ref('users/' + user.uid).set({
+            fullName: fullName,
+            email: email
+          });
 
           messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
           // Optionally redirect to login page after successful registration
