@@ -64,10 +64,27 @@ body {
 }
 
 .logo {
-    color: var(--gold);
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-light);
     text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    color: #b99730;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 18px;
+    }
 }
 
 .nav-menu {
