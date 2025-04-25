@@ -1,4 +1,8 @@
-import { auth, signInWithEmailAndPassword } from './firebase-init.js';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig } from './firebase-config.js';
+
+const app = initializeApp(firebaseConfig);
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -13,10 +17,9 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     loadingIndicator.style.display = 'block'; // Show loading indicator
 
     try {
+      const auth = getAuth(app);
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed in
-          // Set session information in localStorage
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('username', email);
           localStorage.setItem('loginTime', new Date().getTime());
@@ -25,16 +28,16 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             localStorage.setItem('jwtToken', idToken);
             messageContainer.innerHTML = '<p style="color: green;">Login successful!</p>';
             window.location.href = '/pages/user/dashboard.html';
-            loadingIndicator.style.display = 'none'; // Hide loading indicator
+            loadingIndicator.style.display = 'none';
           });
         })
         .catch((error) => {
           var errorMessage = error.message;
           messageContainer.innerHTML = '<p style="color: red;">Login failed: ' + errorMessage + '</p>';
-          loadingIndicator.style.display = 'none'; // Hide loading indicator
+          loadingIndicator.style.display = 'none';
         });
     } catch (error) {
         messageContainer.innerHTML = '<p style="color: red;">Login failed: ' + error.message + '</p>';
-        loadingIndicator.style.display = 'none'; // Hide loading indicator
+        loadingIndicator.style.display = 'none';
     }
 });
