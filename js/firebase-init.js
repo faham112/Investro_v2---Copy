@@ -1,3 +1,8 @@
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getDatabase, ref, set, get, update, remove } from "firebase/database";
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -11,9 +16,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebase = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-// Obtain analytics instance
-firebase.analytics();
-
-window.firebase = firebase;
+export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, ref, set, get, update, remove };

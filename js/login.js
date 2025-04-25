@@ -1,4 +1,4 @@
-const auth = window.firebase.auth();
+import { auth, signInWithEmailAndPassword } from './firebase-init.js';
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -10,7 +10,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     let email = username;
 
     try {
-        auth.signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
           // Set session information in localStorage

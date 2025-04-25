@@ -1,3 +1,5 @@
+import { auth, createUserWithEmailAndPassword, db, ref, set } from './firebase-init.js';
+
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -24,13 +26,13 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     }
 
     try {
-        window.firebase.auth().createUserWithEmailAndPassword(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
-          var user = userCredential.user;
+          const user = userCredential.user;
 
           // Store user data in Firebase
-          window.firebase.database().ref('users/' + user.uid).set({
+          set(ref(db, 'users/' + user.uid), {
             fullName: fullName,
             email: email
           });
