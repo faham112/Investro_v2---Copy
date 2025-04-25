@@ -8,6 +8,16 @@ document.getElementById('registerForm').addEventListener('submit', function(even
 
     const messageContainer = document.getElementById('messageContainer');
 
+    if (!fullName) {
+        messageContainer.innerHTML = '<p style="color: red;">Full name cannot be empty!</p>';
+        return;
+    }
+
+    if (!email) {
+        messageContainer.innerHTML = '<p style="color: red;">Email cannot be empty!</p>';
+        return;
+    }
+
     if (password !== confirmPassword) {
         messageContainer.innerHTML = '<p style="color: red;">Passwords do not match!</p>';
         return;
@@ -30,12 +40,10 @@ document.getElementById('registerForm').addEventListener('submit', function(even
           window.location.href = 'login.html';
         })
         .catch((error) => {
-          var errorCode = error.code;
           var errorMessage = error.message;
           messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + errorMessage + '</p>';
         });
     } catch (error) {
-        console.error("Registration failed:", error);
         messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + error.message + '</p>';
     }
 });

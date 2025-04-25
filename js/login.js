@@ -13,7 +13,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Signed in
-          var user = userCredential.user;
           // Set session information in localStorage
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('username', email);
@@ -26,7 +25,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
           });
         })
         .catch((error) => {
-          var errorCode = error.code;
           var errorMessage = error.message;
           messageContainer.innerHTML = '<p style="color: red;">Login failed: ' + errorMessage + '</p>';
         });
