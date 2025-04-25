@@ -21,4 +21,4 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, ref, set, get, update, remove };
+export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, app };
