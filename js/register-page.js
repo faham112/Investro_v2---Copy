@@ -1,4 +1,4 @@
-document.getElementById('registerForm').addEventListener('submit', function(event) {
+async function handleRegister(event) {
     event.preventDefault();
 
     const fullName = document.getElementById('fullName').value;
@@ -27,29 +27,26 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     loadingIndicator.style.display = 'block'; // Show loading indicator
 
     try {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
           // Signed in
-          const user = userCredential.user;
+        const user = userCredential.user;
 
           // Store user data in Firebase
-          firebase.database().ref('users/' + user.uid).set({
+        await firebase.database().ref('users/' + user.uid).set({
             fullName: fullName,
             email: email
-          });
-
-          messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
-          // Optionally redirect to login page after successful registration
-          window.location.href = 'login.html';
-          loadingIndicator.style.display = 'none'; // Hide loading indicator
-        })
-        .catch((error) => {
-          var errorMessage = error.message;
-          messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + errorMessage + '</p>';
-          loadingIndicator.style.display = 'none'; // Hide loading indicator
         });
+
+        messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
+          // Optionally redirect to login page after successful registration
+        window.location.href = 'login.html';
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
     } catch (error) {
         messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + error.message + '</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
-});
+}
+
+document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+export { handleRegister };
