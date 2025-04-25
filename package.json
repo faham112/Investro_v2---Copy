@@ -3,6 +3,6 @@
     "eslint": "^9.25.1"
   },
   "dependencies": {
-    "firebase": "^11.6.0"
+    "firebase": "^11.6.1"
   }
 }

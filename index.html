@@ -1236,16 +1236,17 @@
             }
         });
     </script>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js" type="module"></script>
     <script type="module">
+      import { initializeApp } from "firebase/app";
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
+      import { getDatabase, ref, set, get, update, remove } from "firebase/database";
+
       const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "investro-online.firebaseapp.com",
         // ... (your actual config)
       };
-      firebase.initializeApp(firebaseConfig);
+      const app = initializeApp(firebaseConfig);
     </script>
 
     <section class="hero-section">
