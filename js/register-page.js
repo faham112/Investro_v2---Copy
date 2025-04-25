@@ -9,6 +9,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const confirmPassword = document.getElementById('confirmPassword').value;
 
     const messageContainer = document.getElementById('messageContainer');
+    const loadingIndicator = document.getElementById('loadingIndicator');
 
     if (!fullName) {
         messageContainer.innerHTML = '<p style="color: red;">Full name cannot be empty!</p>';
@@ -25,6 +26,8 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         return;
     }
 
+    loadingIndicator.style.display = 'block'; // Show loading indicator
+
     try {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -40,12 +43,15 @@ document.getElementById('registerForm').addEventListener('submit', function(even
           messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
           // Optionally redirect to login page after successful registration
           window.location.href = 'login.html';
+          loadingIndicator.style.display = 'none'; // Hide loading indicator
         })
         .catch((error) => {
           var errorMessage = error.message;
           messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + errorMessage + '</p>';
+          loadingIndicator.style.display = 'none'; // Hide loading indicator
         });
     } catch (error) {
         messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + error.message + '</p>';
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
 });
