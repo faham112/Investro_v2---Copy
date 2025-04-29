@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         :root {
             --gold: #d4af37;
@@ -1367,41 +1367,7 @@
             }
         });
     </script>
-    <script src="../../js/websocket-handler.js"></script>
-    <script>
-        // Initialize WebSocket connection
-        const wsHandler = new WebSocketHandler();
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Connect to WebSocket
-            wsHandler.connect();
-
-            // Listen for withdrawal status updates
-            wsHandler.on('withdrawal_status', (data) => {
-                console.log('Withdrawal status update:', data);
-            });
-
-            // Listen for balance updates
-            wsHandler.on('balance_update', (data) => {
-                console.log('Balance update:', data);
-            });
-
-            // Listen for investment updates
-            wsHandler.on('investment_update', (data) => {
-                console.log('Investment update:', data);
-            });
-
-            // Handle page visibility changes
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible') {
-                    // Reconnect if needed when page becomes visible
-                    if (!wsHandler.socket || wsHandler.socket.readyState !== WebSocket.OPEN) {
-                        wsHandler.connect();
-                    }
-                }
-            });
-        });
-    </script>
+    <!-- Removed WebSocket handler script load and usage as the file is missing -->
     <script src="../../js/admin/dashboard.js"></script>
 </body>
 </html>
