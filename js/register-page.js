@@ -42,7 +42,10 @@ async function handleRegister(event) {
         window.location.href = 'login.html';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
     } catch (error) {
-        messageContainer.innerHTML = '<p style="color: red;">Registration failed: ' + error.message + '</p>';
+        // Log the specific error to the console for debugging
+        console.error("Registration Error:", error);
+        // Display a generic message to the user
+        messageContainer.innerHTML = '<p style="color: red;">Registration failed. Please check your details and try again.</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
 }
