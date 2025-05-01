@@ -22,7 +22,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         .then((userCredential) => {
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('username', email);
-          localStorage.setItem('loginTime', new Date().getTime());
+          localStorage.setItem('loginTime', new Date().getTime()); // Set login time
 
           userCredential.user.getIdToken().then(function(idToken) {
             localStorage.setItem('jwtToken', idToken);
