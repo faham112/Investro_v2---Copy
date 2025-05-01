@@ -47,8 +47,15 @@ async function handleRegister(event) {
     } catch (error) {
         // Log the specific error to the console for debugging
         console.error("Registration Error:", error);
+
+        let errorMessage = "Registration failed. Please check your details and try again.";
+
+        if (error.code === 'auth/email-already-in-use') {
+            errorMessage = "User email already exists.";
+        }
+
         // Display a generic message to the user
-        messageContainer.innerHTML = '<p style="color: red;">Registration failed. Please check your details and try again.</p>';
+        messageContainer.innerHTML = '<p style="color: red;">' + errorMessage + '</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
 }
