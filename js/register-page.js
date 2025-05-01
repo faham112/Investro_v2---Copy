@@ -37,6 +37,8 @@ async function handleRegister(event) {
             email: email
         });
 
+        console.log("User data saved to database successfully!"); // ADDED LOG
+
         messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
           // Optionally redirect to login page after successful registration
