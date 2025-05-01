@@ -34,17 +34,11 @@ async function handleRegister(event) {
           // Signed in
         const user = userCredential.user;
 
-          // Store user data in Firebase
-        await firebase.database().ref('users/' + user.uid).set({
-            fullName: fullName,
-            email: email
-        });
+        //console.log("User data saved to database successfully!"); // ADDED LOG
+        //console.log("About to hide loading indicator and redirect"); // ADDED LOG
 
-        console.log("User data saved to database successfully!"); // ADDED LOG
-        console.log("About to hide loading indicator and redirect"); // ADDED LOG
-
-        messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
-        loadingIndicator.style.display = 'none'; // Hide loading indicator
+        //messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
+        //loadingIndicator.style.display = 'none'; // Hide loading indicator
           // Optionally redirect to login page after successful registration
         window.location.replace('/pages/user/dashboard.html');
     } catch (error) {
