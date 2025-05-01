@@ -1,6 +1,5 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
+// Firebase configuration (ensure Firebase SDKs are loaded via CDN in HTML)
+// TODO: Add SDKs for Firebase products that you want to use via CDN
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -15,7 +14,9 @@ const firebaseConfig = {
   measurementId: "G-XV090SK0VK"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase (assumes firebase object is available globally from CDN)
+const app = firebase.initializeApp(firebaseConfig);
 
-export { firebaseConfig };
+// Note: firebaseConfig is now a global constant in this script's scope
+// Other scripts loaded after this one can potentially access it,
+// though it's better practice to explicitly pass configuration if needed.

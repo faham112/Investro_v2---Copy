@@ -264,17 +264,7 @@
             background: linear-gradient(135deg, rgba(26, 31, 37, 0.95) 0%, rgba(15, 27, 33, 0.95) 100%);
         }
 
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('assets/images/pattern-bg.png') repeat;
-            opacity: 0.1;
-            z-index: 0;
-        }
+        /* Removed ::before rule that referenced non-existent assets/images/pattern-bg.png */
 
         .hero-content {
             position: relative;
@@ -1199,12 +1189,12 @@
 
         <nav class="mobile-menu">
             <div class="mobile-menu-links">
-                <a href="#home"><i class="fas fa-home"></i> Home</a>
-                <a href="#features"><i class="fas fa-star"></i> Features</a>
-                <a href="#plans"><i class="fas fa-layer-group"></i> Plans</a>
-                <a href="#calculator"><i class="fas fa-calculator"></i> Calculator</a>
-                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
-                <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="./index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="./pages/features.html"><i class="fas fa-star"></i> Features</a>
+                <a href="./pages/plans.html"><i class="fas fa-layer-group"></i> Plans</a>
+                <a href="./pages/calculator.html"><i class="fas fa-calculator"></i> Calculator</a>
+                <a href="./pages/about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="./pages/contact.html"><i class="fas fa-envelope"></i> Contact</a>
             </div>
         </nav>
     </header>

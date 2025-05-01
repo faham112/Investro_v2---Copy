@@ -48,5 +48,3 @@ async function handleRegister(event) {
 }
 
 document.getElementById('registerForm').addEventListener('submit', handleRegister);
-
-export { handleRegister };

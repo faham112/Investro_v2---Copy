@@ -423,13 +423,17 @@
         </div>
     </footer>
 
-    <!-- Firebase and Page Specific Scripts -->
+    <!-- Firebase SDKs (Load before config and page scripts) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+    <!-- Firebase Configuration -->
     <!-- IMPORTANT: Ensure firebase-config.js has your actual Firebase credentials -->
-    <script type="module" src="../js/firebase-config.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js"></script>
-    <!-- auth.js is implicitly loaded by register-page.js -->
-    <script type="module" src="../js/register-page.js"></script>
+    <script defer src="../js/firebase-config.js"></script>
+
+    <!-- Page Specific Script -->
+    <script defer src="../js/register-page.js"></script>
 
 </body>
 </html>
