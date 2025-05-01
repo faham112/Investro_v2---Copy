@@ -46,16 +46,19 @@ async function handleRegister(event) {
         window.location.replace('/pages/user/dashboard.html');
     } catch (error) {
         // Log the specific error to the console for debugging
-        console.error("Registration Error:", error);
+     console.error("Registration Error:", error);
 
         let errorMessage = "Registration failed. Please check your details and try again.";
 
         if (error.code === 'auth/email-already-in-use') {
             errorMessage = "User email already exists.";
+             messageContainer.innerHTML = '<p style="color: red;">' + errorMessage + '</p>';
+        } else {
+             messageContainer.innerHTML = '<p style="color: red;">' + errorMessage + '</p>';
         }
 
         // Display a generic message to the user
-        messageContainer.innerHTML = '<p style="color: red;">' + errorMessage + '</p>';
+       
         loadingIndicator.style.display = 'none'; // Hide loading indicator
     }
 }
