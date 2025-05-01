@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Investro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d4af37;
+            --dark: #1a1f25;
+            --darker: #0f1b21;
+            --light: #ffffff;
+            --gray: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-login-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .admin-logo {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .admin-logo i {
+            font-size: 32px;
+        }
+
+        .admin-subtitle {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--light);
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .admin-login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--darker);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .admin-login-btn:hover {
+            background: #c4a030;
+            transform: translateY(-1px);
+        }
+
+        .admin-login-btn i {
+            font-size: 18px;
+        }
+
+        .back-to-site {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .back-to-site a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-site a:hover {
+            color: var(--primary);
+        }
+
+        .error-message {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .admin-login-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-header">
+<a href="#" class="logo">Invest<span>RO</span></a>
+            <p class="admin-subtitle">Enter your credentials to access the admin panel</p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            Invalid username or password. Please try again.
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Login successful! Redirecting to admin dashboard...
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <i class="fas fa-user"></i>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me" for="rememberMe">
+                    <input type="checkbox" id="rememberMe" name="remember">
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="admin-login-btn">
+                <i class="fas fa-sign-in-alt"></i>
+                Login to Admin Panel
+            </button>
+        </form>
+
+        <div class="back-to-site">
+            <a href=".../index.html">
+                <i class="fas fa-arrow-left"></i>
+                Back to Main Site
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        if (adminLoginForm) {
+            adminLoginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+                const rememberMe = document.getElementById('rememberMe').checked;
+
+                if (!emailInput || !passwordInput) {
+                    console.error("Admin login form elements not found.");
+                    alert("An error occurred loading the form. Please refresh and try again.");
+                    return;
+                }
+
+                const email = emailInput.value;
+                const password = passwordInput.value;
+
+                loginUser(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        console.log('Admin Firebase Login Successful:', user.uid);
+                        alert('Login successful! Redirecting to admin dashboard...');
+                        window.location.href = 'dashboard.html';
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.error('Admin Firebase Login Failed:', errorCode, errorMessage);
+
+                        let friendlyMessage = `Login failed. Please try again.`;
+                        if (errorCode === 'auth/invalid-credential' || errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
+                            friendlyMessage = "Invalid email or password. Please check your credentials.";
+                        } else if (errorCode === 'auth/invalid-email') {
+                            friendlyMessage = "The email address format is invalid.";
+                        } else if (errorCode === 'auth/too-many-requests') {
+                            friendlyMessage = "Access temporarily disabled due to too many failed login attempts. Please reset your password or try again later.";
+                        } else if (errorCode === 'auth/network-request-failed') {
+                            friendlyMessage = "Network error. Please check your internet connection.";
+                        }
+
+                        alert(friendlyMessage);
+                    });
+            });
+        } else {
+            console.warn("Admin login form (adminLoginForm) not found.");
+        }
+
+        // Check if admin is already logged in (using Firebase auth state)
+        observeAuthState((user) => {
+            if (user && user.email === 'admin@example.com') { // Replace with your admin email
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
