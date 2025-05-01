@@ -16,7 +16,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase (assumes firebase object is available globally from CDN)
-const app = firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp({
+  ...firebaseConfig,
+  databaseURL: "https://webappfinal112-default-rtdb.firebaseio.com/" // Explicitly set databaseURL
+});
 
 // Note: firebaseConfig is now a global constant in this script's scope
 // Other scripts loaded after this one can potentially access it,
