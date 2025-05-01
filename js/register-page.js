@@ -43,7 +43,7 @@ async function handleRegister(event) {
         messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
           // Optionally redirect to login page after successful registration
-        window.location.href = 'login.html';
+        window.location.href = '/pages/user/dashboard.html';
     } catch (error) {
         // Log the specific error to the console for debugging
         console.error("Registration Error:", error);
