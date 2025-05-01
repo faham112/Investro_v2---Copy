@@ -38,6 +38,7 @@ async function handleRegister(event) {
         });
 
         console.log("User data saved to database successfully!"); // ADDED LOG
+        console.log("About to hide loading indicator and redirect"); // ADDED LOG
 
         messageContainer.innerHTML = '<p style="color: green;">Registration successful!</p>';
         loadingIndicator.style.display = 'none'; // Hide loading indicator
