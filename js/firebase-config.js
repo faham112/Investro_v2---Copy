@@ -7,7 +7,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyC_RFY98xrBfLpYz3c_zw-fJc6pieGcA88",
   authDomain: "webappfinal112.firebaseapp.com",
-  databaseURL: "https://webappfinal112-default-rtdb.firebaseio.com/", // Added Database URL
+  databaseURL: "https://webappfinal112-default-rtdb.firebaseio.com/",
   projectId: "webappfinal112",
   storageBucket: "webappfinal112.firebasestorage.app",
   messagingSenderId: "82896269063",
