@@ -34,6 +34,10 @@ async function handleRegister(event) {
           // Signed in
         const user = userCredential.user;
 
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', email);
+        localStorage.setItem('loginTime', new Date().getTime());
+
         //console.log("User data saved to database successfully!"); // ADDED LOG
         //console.log("About to hide loading indicator and redirect"); // ADDED LOG
 
