@@ -24,6 +24,9 @@ async function handleRegister(event) {
         return;
     }
 
+    const registerButton = document.querySelector('.register-button');
+    registerButton.disabled = true; // Disable the button
+
     loadingIndicator.style.display = 'block'; // Show loading indicator
 
     try {
