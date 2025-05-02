@@ -513,37 +513,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Function to set session expiry
-        function setSessionExpiry() {
-            const now = new Date();
-            const expiry = now.getTime() + (60 * 60 * 1000); // 1 hour
-            localStorage.setItem('sessionExpiry', expiry);
-        }
-
-        // Function to check session expiry
-        function checkSessionExpiry() {
-            const sessionExpiryTime = localStorage.getItem('sessionExpiry');
-            if (sessionExpiryTime) {
-                const now = new Date().getTime();
-                if (now > sessionExpiryTime) {
-                    // Session expired, clear data and redirect
-                    localStorage.removeItem('sessionExpiry');
-                    localStorage.removeItem('adminToken');
-                    window.location.href = 'login.html';
-                    return false;
-                } else {
-                    // Session is still valid, reset expiry
-                    setSessionExpiry();
-                    return true;
-                }
-            } else {
-                // No session expiry set, redirect to login
-                localStorage.removeItem('adminToken');
-                window.location.href = 'login.html';
-                return false;
-            }
-        }
-
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 // User not logged in, redirect to login
@@ -636,12 +605,6 @@
         }
 
         function updateDashboard() {
-            // Check authentication before updating
-            checkSessionExpiry();
-
-            // Set session expiry
-            setSessionExpiry();
-
             const statsCards = document.querySelectorAll('.stat-card');
             
             // Add loading state
@@ -661,9 +624,7 @@
 
         // Initialize Dashboard
         window.addEventListener('load', function() {
-            if (checkSessionExpiry()) {
-                updateDashboard();
-            }
+            updateDashboard();
             
             // Clear any existing interval
             if (dashboardRefreshInterval) {
