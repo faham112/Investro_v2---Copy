@@ -19,7 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         localStorage.setItem('loginTime', new Date().getTime());
         localStorage.setItem('isAdmin', 'true');
         messageContainer.innerHTML = '<p style="color: green;">Admin Login successful!</p>';
-        window.location.href = '/admin-v1';
+        window.location.href = '/pages/admin/dashboard.html';
         loadingIndicator.style.display = 'none';
         return;
     }
