@@ -1,6 +1,4 @@
-const ADMIN_USER = {
-    userid: "Faham@112",
-    pass: "Faham@112"
-};
+const adminEmail = "Admin@investro.online";
+const adminPassword = "Admin@investro";
 
-export default ADMIN_USER;
+export { adminEmail, adminPassword };

@@ -257,7 +257,9 @@
     </div>
 
     <script src="../js/auth.js"></script>
-    <script>
+    <script type="module">
+        import { adminEmail, adminPassword } from '../../js/admin/admin-constants.js';
+
         // Toggle password visibility
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
@@ -287,42 +289,18 @@
                 const email = emailInput.value;
                 const password = passwordInput.value;
 
-                loginUser(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        console.log('Admin Firebase Login Successful:', user.uid);
-                        alert('Login successful! Redirecting to admin dashboard...');
-                        window.location.href = 'dashboard.html';
-                    })
-                    .catch((error) => {
-                        const errorCode = error.code;
-                        const errorMessage = error.message;
-                        console.error('Admin Firebase Login Failed:', errorCode, errorMessage);
-
-                        let friendlyMessage = `Login failed. Please try again.`;
-                        if (errorCode === 'auth/invalid-credential' || errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
-                            friendlyMessage = "Invalid email or password. Please check your credentials.";
-                        } else if (errorCode === 'auth/invalid-email') {
-                            friendlyMessage = "The email address format is invalid.";
-                        } else if (errorCode === 'auth/too-many-requests') {
-                            friendlyMessage = "Access temporarily disabled due to too many failed login attempts. Please reset your password or try again later.";
-                        } else if (errorCode === 'auth/network-request-failed') {
-                            friendlyMessage = "Network error. Please check your internet connection.";
-                        }
-
-                        alert(friendlyMessage);
-                    });
+                if (email === adminEmail && password === adminPassword) {
+                    console.log('Admin Login Successful');
+                    alert('Login successful! Redirecting to admin dashboard...');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const errorMessageElement = document.getElementById('errorMessage');
+                    errorMessageElement.style.display = 'block';
+                }
             });
         } else {
             console.warn("Admin login form (adminLoginForm) not found.");
         }
-
-        // Check if admin is already logged in (using Firebase auth state)
-        observeAuthState((user) => {
-            if (user && user.email === 'admin@example.com') { // Replace with your admin email
-                window.location.href = 'dashboard.html';
-            }
-        });
     </script>
 </body>
 </html>
