@@ -1,10 +1,27 @@
 const path = require('path');
+const glob = require('glob');
 
 module.exports = {
-  entry: './js/login.js',
+  entry: glob.sync('./js/**/*.js').reduce((acc, path) => {
+    const entryName = path.replace(/^.\/js\/(.*).js$/, '$1');
+    acc[entryName] = path;
+    return acc;
+  }, {}),
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+    ],
   },
   resolve: {
     alias: {

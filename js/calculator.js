@@ -1,20 +1,51 @@
-// Placeholder for investment calculation logic
-// Prevents "calculateInvestment is not defined" error in index.html
-
 function calculateInvestment(event) {
-  event.preventDefault(); // Prevent form submission
+    event.preventDefault();
 
-  console.log("Calculator form submitted. Calculation logic needs implementation.");
+    // Get input values
+    const initialAmount = parseFloat(document.getElementById('initialAmount').value);
+    const investmentPlan = document.getElementById('investmentPlan').value;
 
-  // Placeholder: Clear previous results or show a message
-  document.getElementById('dailyProfit').textContent = 'Rs0.00';
-  document.getElementById('weeklyProfit').textContent = 'Rs0.00';
-  document.getElementById('monthlyProfit').textContent = 'Rs0.00';
-  document.getElementById('totalReturn').textContent = 'Rs0.00';
+    // Validate input
+    if (isNaN(initialAmount) || initialAmount <= 0) {
+        alert('Please enter a valid investment amount.');
+        return;
+    }
 
-  alert("Calculator logic is not yet implemented.");
+    // Determine ROI based on investment plan
+    let dailyROI;
+    switch (investmentPlan) {
+        case 'starter':
+            dailyROI = 0.015; // 1.5%
+            break;
+        case 'silver':
+            dailyROI = 0.02; // 2%
+            break;
+        case 'gold':
+            dailyROI = 0.025; // 2.5%
+            break;
+        case 'platinum':
+            dailyROI = 0.03; // 3%
+            break;
+        case 'diamond':
+            dailyROI = 0.035; // 3.5%
+            break;
+        case 'vip':
+            dailyROI = 0.04; // 4%
+            break;
+        default:
+            alert('Invalid investment plan selected.');
+            return;
+    }
+
+    // Calculate earnings
+    const dailyProfit = initialAmount * dailyROI;
+    const weeklyProfit = dailyProfit * 7;
+    const monthlyProfit = dailyProfit * 30;
+    const totalReturn = initialAmount + monthlyProfit;
+
+    // Display results
+    document.getElementById('dailyProfit').textContent = 'Rs' + dailyProfit.toFixed(2);
+    document.getElementById('weeklyProfit').textContent = 'Rs' + weeklyProfit.toFixed(2);
+    document.getElementById('monthlyProfit').textContent = 'Rs' + monthlyProfit.toFixed(2);
+    document.getElementById('totalReturn').textContent = 'Rs' + totalReturn.toFixed(2);
 }
-
-// Note: The form in index.html already has an onsubmit handler,
-// so we don't need an additional event listener here unless
-// the onsubmit attribute is removed from the HTML form tag.
