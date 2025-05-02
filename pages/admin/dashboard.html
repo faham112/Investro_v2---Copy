@@ -639,6 +639,9 @@
             // Check authentication before updating
             checkSessionExpiry();
 
+            // Set session expiry
+            setSessionExpiry();
+
             const statsCards = document.querySelectorAll('.stat-card');
             
             // Add loading state
