@@ -13,11 +13,11 @@ function checkSession() {
       localStorage.removeItem('username');
       localStorage.removeItem('loginTime');
       localStorage.removeItem('jwtToken');
-      window.location.href = '/pages/login.html'; // Redirect to login page
+      window.location.href = '/pages/admin/login.html'; // Redirect to login page
     }
   } else {
     // Not logged in
-    window.location.href = '/pages/login.html'; // Redirect to login page
+    window.location.href = '/pages/admin/login.html'; // Redirect to login page
   }
 }
 
