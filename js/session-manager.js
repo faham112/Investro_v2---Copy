@@ -1,31 +1,18 @@
-function checkSession() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  const loginTime = localStorage.getItem('loginTime');
-  const jwtToken = localStorage.getItem('jwtToken');
-
-  if (isLoggedIn && loginTime && jwtToken) {
-    console.log('Session Manager - isLoggedIn:', isLoggedIn);
-    console.log('Session Manager - loginTime:', loginTime);
-    console.log('Session Manager - jwtToken:', jwtToken);
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // Optional: Check if 1 hour has passed since login
+    const loginTime = localStorage.getItem('loginTime');
     const now = new Date().getTime();
-    const sessionDuration = now - loginTime;
-    console.log('Session Manager - sessionDuration:', sessionDuration);
-    console.log('Session Manager - oneHour:', 60 * 60 * 1000);
-    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+    const oneHour = 60 * 60 * 1000;
 
-    if (sessionDuration > oneHour) {
-      // Session has expired
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('username');
-      localStorage.removeItem('loginTime');
-      localStorage.removeItem('jwtToken');
-      window.location.href = '/pages/login.html'; // Redirect to login page
+    if (loginTime && now - loginTime > oneHour) {
+      firebase.auth().signOut().then(() => {
+        localStorage.removeItem('loginTime');
+        window.location.href = '/pages/login.html';
+      });
     }
   } else {
     // Not logged in
-    window.location.href = '/pages/login.html'; // Redirect to login page
+    window.location.href = '/pages/login.html';
   }
-}
-
-checkSession(); // Call checkSession on page load
-setInterval(checkSession, 300000); // Call checkSession every 5 minutes
+});

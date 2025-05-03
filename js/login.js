@@ -38,6 +38,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             localStorage.setItem('loginTime', new Date().getTime());
 
           userCredential.user.getIdToken().then(function(idToken) {
+            localStorage.setItem('loginTime', new Date().getTime());
             localStorage.setItem('jwtToken', idToken);
             localStorage.setItem('sessionToken', idToken);
             messageContainer.innerHTML = '<p style="color: green;">Login successful!</p>';
