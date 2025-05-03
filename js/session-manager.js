@@ -1,6 +1,6 @@
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    git add .    const loginTime = localStorage.getItem('loginTime');
+    git add .    git commit -m "Add session management functionality"    git remote add origin https://github.com/yourusername/Investro_v22.git    const loginTime = localStorage.getItem('loginTime');
     const now = new Date().getTime();
     const oneHour = 60 * 60 * 1000;
 
