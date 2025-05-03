@@ -39,6 +39,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
           userCredential.user.getIdToken().then(function(idToken) {
             localStorage.setItem('jwtToken', idToken);
+            localStorage.setItem('sessionToken', idToken);
             messageContainer.innerHTML = '<p style="color: green;">Login successful!</p>';
             window.location.href = '/pages/user/dashboard.html';
             loadingIndicator.style.display = 'none';

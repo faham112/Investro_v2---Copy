@@ -1306,6 +1306,10 @@
             const sessionToken = localStorage.getItem('sessionToken');
             const username = localStorage.getItem('username');
 
+            console.log('Dashboard - isLoggedIn:', isLoggedIn);
+            console.log('Dashboard - sessionToken:', sessionToken);
+            console.log('Dashboard - username:', username);
+
             if (!isLoggedIn || !sessionToken || !username) {
                 // Not authenticated, redirect to login
                 window.location.href = '../login.html';

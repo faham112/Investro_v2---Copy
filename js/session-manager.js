@@ -3,8 +3,13 @@ function checkSession() {
   const loginTime = localStorage.getItem('loginTime');
 
   if (isLoggedIn && loginTime) {
+    console.log('Session Manager - isLoggedIn:', isLoggedIn);
+    console.log('Session Manager - loginTime:', loginTime);
+    console.log('Session Manager - jwtToken:', localStorage.getItem('jwtToken'));
     const now = new Date().getTime();
     const sessionDuration = now - loginTime;
+    console.log('Session Manager - sessionDuration:', sessionDuration);
+    console.log('Session Manager - oneHour:', 60 * 60 * 1000);
     const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
 
     if (sessionDuration > oneHour) {
@@ -22,3 +27,4 @@ function checkSession() {
 }
 
 checkSession(); // Call checkSession on page load
+setInterval(checkSession, 300000); // Call checkSession every 5 minutes
