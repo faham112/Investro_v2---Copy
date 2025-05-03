@@ -1,11 +1,12 @@
 function checkSession() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const loginTime = localStorage.getItem('loginTime');
+  const jwtToken = localStorage.getItem('jwtToken');
 
-  if (isLoggedIn && loginTime) {
+  if (isLoggedIn && loginTime && jwtToken) {
     console.log('Session Manager - isLoggedIn:', isLoggedIn);
     console.log('Session Manager - loginTime:', loginTime);
-    console.log('Session Manager - jwtToken:', localStorage.getItem('jwtToken'));
+    console.log('Session Manager - jwtToken:', jwtToken);
     const now = new Date().getTime();
     const sessionDuration = now - loginTime;
     console.log('Session Manager - sessionDuration:', sessionDuration);
@@ -18,11 +19,11 @@ function checkSession() {
       localStorage.removeItem('username');
       localStorage.removeItem('loginTime');
       localStorage.removeItem('jwtToken');
-      window.location.href = '/pages/admin/login.html'; // Redirect to login page
+      window.location.href = '/pages/login.html'; // Redirect to login page
     }
   } else {
     // Not logged in
-    window.location.href = '/pages/admin/login.html'; // Redirect to login page
+    window.location.href = '/pages/login.html'; // Redirect to login page
   }
 }
 
